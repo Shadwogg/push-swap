@@ -1,38 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:23:30 by ggiboury         ###   ########.fr       */
+/*   Created: 2022/11/01 03:48:12 by ggiboury          #+#    #+#             */
+/*   Updated: 2023/01/31 21:16:35 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-char	**free_tab_str(char **tab, size_t n)
+int	ft_toupper(int c)
 {
-	while (n > 0)
-	{
-		free(tab[n]);
-		n--;
-	}
-	free(tab[0]);
-	free(tab);
-	return (NULL);
-}
-
-void	free_stack(t_stack *stk)
-{
-	t_stack	*next;
-
-	while (stk->next != NULL)
-	{
-		next = stk->next;
-		free(stk);
-		stk = next;
-	}
-	free(stk);
+	if (c > 96 && c < 123)
+		c -= 32;
+	return (c);
 }

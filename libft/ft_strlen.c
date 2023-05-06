@@ -1,38 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:23:30 by ggiboury         ###   ########.fr       */
+/*   Created: 2022/10/31 21:42:26 by ggiboury          #+#    #+#             */
+/*   Updated: 2023/01/31 22:07:54 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-char	**free_tab_str(char **tab, size_t n)
+/**
+ * Returns the size of the string.
+*/
+size_t	ft_strlen(const char *s)
 {
-	while (n > 0)
-	{
-		free(tab[n]);
-		n--;
-	}
-	free(tab[0]);
-	free(tab);
-	return (NULL);
-}
+	size_t	ct;
 
-void	free_stack(t_stack *stk)
-{
-	t_stack	*next;
-
-	while (stk->next != NULL)
-	{
-		next = stk->next;
-		free(stk);
-		stk = next;
-	}
-	free(stk);
+	ct = 0;
+	while (s[ct])
+		ct++;
+	return (ct);
 }

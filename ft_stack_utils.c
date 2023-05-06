@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	in_stack(int *arr, int size, int nb)
+/*int	in_stack(int *arr, int size, int nb)
 {
 	int	ct;
 
@@ -24,9 +24,9 @@ int	in_stack(int *arr, int size, int nb)
 		ct++;
 	}
 	return (0);
-}
+}*/
 
-int	get_len_arr(char *s)
+/*int	get_len_arr(char *s)
 {
 	int	size;
 	int	ct;
@@ -40,38 +40,78 @@ int	get_len_arr(char *s)
 		ct++;
 	}
 	return (size);
+}*/
+
+t_stack	*pop_first(t_stack *stk)
+{
+	t_stack	*tmp;
+
+	tmp = stk;
+	*stk = *stk->next;
+	tmp->next = NULL;
+	return (tmp);
 }
 
-int	pop_first(t_array *arr)
+t_stack	*pop_last(t_stack *stk)
 {
-	int	val;
-	int	ct;
+	t_stack	*tmp;
 
-	val = arr->arr[0];
-	ct = 0;
-	while (ct < arr->size - 1)
-	{
-		arr->arr[ct] = arr->arr[ct + 1];
-		ct++;
-	}
-	arr->arr[ct] = 0;
-	return (val);
+	if (stk == NULL)
+		return (NULL);
+	while (stk->next != NULL || stk->next->next != NULL)
+		stk = stk->next;
+	tmp = stk->next;
+	stk->next = NULL;
+	return (tmp);
 }
 
-void	add_first(t_array *arr, int nb)
+void	insert_first(t_stack *stk, t_stack *el)
 {
-	int	ct;
-
-	if (arr->size == 0)
+	if (stk == NULL)
 	{
-		arr->arr[0] = nb;
+		*stk = *el;
 		return ;
 	}
-	ct = arr->size;
-	while (ct > 0)
+	while (stk->next != NULL)
+		stk = stk->next;
+	stk->next = el;
+}
+
+int	is_sorted(t_stack *stk)
+{
+	int	tmp;
+
+	if (stk == NULL)
+		return (1);
+	tmp = stk->nb;
+	while (stk->next != NULL)
 	{
-		arr->arr[ct] = arr->arr[ct - 1];
-		ct--;
+		stk = stk->next;
+		if (stk->nb < tmp)
+			return (0);
+		tmp = stk->nb;
 	}
-	arr->arr[0] = nb;
+	return (1);
+}
+
+int	get_stack_size(t_stack *stk)
+{
+	int	size;
+
+	size = 0;
+	while (stk != NULL)
+	{
+		stk = stk->next;
+		size++;
+	}
+	return (size);
+}
+
+t_stack	*get_last(t_stack *stk)
+{
+	if (stk == NULL)
+		return (NULL);
+	while (stk->next != NULL)
+		stk = stk->next;
+	return (stk);
 }

@@ -1,38 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:23:30 by ggiboury         ###   ########.fr       */
+/*   Created: 2022/11/03 03:31:59 by ggiboury          #+#    #+#             */
+/*   Updated: 2023/01/31 21:37:07 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-char	**free_tab_str(char **tab, size_t n)
+/**
+ * Print the string and a line break.
+ * Returns -1 if an error occured or the length of what is printed.
+*/
+int	ft_putendl_fd(char *s, int fd)
 {
-	while (n > 0)
-	{
-		free(tab[n]);
-		n--;
-	}
-	free(tab[0]);
-	free(tab);
-	return (NULL);
-}
+	int	len;
+	int	len2;
 
-void	free_stack(t_stack *stk)
-{
-	t_stack	*next;
-
-	while (stk->next != NULL)
-	{
-		next = stk->next;
-		free(stk);
-		stk = next;
-	}
-	free(stk);
+	len = 0;
+	if (s != NULL)
+		len = write(fd, s, ft_strlen(s));
+	if (len == -1)
+		return (len);
+	len2 = write(fd, "\n", 1);
+	if (len2 == -1)
+		return (-1);
+	return (len + len2);
 }

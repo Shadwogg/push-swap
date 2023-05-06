@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:23:30 by ggiboury         ###   ########.fr       */
+/*   Created: 2022/10/31 21:50:28 by ggiboury          #+#    #+#             */
+/*   Updated: 2023/01/31 22:08:30 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-char	**free_tab_str(char **tab, size_t n)
+/**
+ * Fill the memory with the number given
+*/
+void	*ft_memset(void *s, int nb, size_t size)
 {
-	while (n > 0)
-	{
-		free(tab[n]);
-		n--;
-	}
-	free(tab[0]);
-	free(tab);
-	return (NULL);
-}
+	int		ct;
+	char	*string;
 
-void	free_stack(t_stack *stk)
-{
-	t_stack	*next;
-
-	while (stk->next != NULL)
-	{
-		next = stk->next;
-		free(stk);
-		stk = next;
-	}
-	free(stk);
+	string = s;
+	ct = -1;
+	while (((size_t)(++ct)) < size)
+		string[ct] = (unsigned char) nb;
+	return (s);
 }

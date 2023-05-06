@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:23:30 by ggiboury         ###   ########.fr       */
+/*   Created: 2022/11/03 03:26:02 by ggiboury          #+#    #+#             */
+/*   Updated: 2023/01/31 21:30:00 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-char	**free_tab_str(char **tab, size_t n)
+/**
+ * Print the character.
+ * Returns -1 if an error occured or the length of what is printed.
+*/
+int	ft_putchar_fd(char c, int fd)
 {
-	while (n > 0)
-	{
-		free(tab[n]);
-		n--;
-	}
-	free(tab[0]);
-	free(tab);
-	return (NULL);
-}
-
-void	free_stack(t_stack *stk)
-{
-	t_stack	*next;
-
-	while (stk->next != NULL)
-	{
-		next = stk->next;
-		free(stk);
-		stk = next;
-	}
-	free(stk);
+	return (write(fd, &c, 1));
 }

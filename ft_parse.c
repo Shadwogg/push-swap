@@ -6,73 +6,38 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:55:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/03/22 14:41:03 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/06 16:09:12 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// Returns the length of the array of string.
-int	arrstr_len(char **tab)
+/**
+ * Parse the input, when it's an array within a single string. 
+*/
+void	parse_str(char *arg, t_stack *stk)
 {
-	int	ct;
-
-	if (tab == NULL)
-		return (-1);
-	ct = 0;
-	while (tab[ct] != NULL)
-		ct++;
-	return (ct);
+	//if (arg[0] == 0)
+	//	print_error("???");
+	//single_input_is_invalid(arg);
+	//stk = parse(arg);
+	(void) stk;
+	(void) arg;
 }
 
-// Test if the number is an integer.
-int	is_not_int(char *nb)
+/**
+ * Parse the input, when it's multiple string.
+*/
+void	parse_strs(int size, char **argv, t_stack *stk)
 {
-	long	tmp;
-	int		ct;
-
-	ct = 0;
-	tmp = 0;
-	if (nb == NULL || *nb == 0)
-		return (1);
-	if (nb[0] == '-')
-		ct++;
-	while (nb[ct])
-	{
-		if (nb[ct] < 48 || nb[ct] > 57)
-			return (1);
-		tmp *= 10;
-		tmp += nb[ct] - 48;
-		if (tmp > INT_MAX)
-			break ;
-		ct++;
-	}
-	if (nb[0] == '-')
-		tmp *= -1;
-	if (tmp < INT_MIN || tmp > INT_MAX)
-		return (1);
-	return (0);
-}
-
-// Convert a number (string format) to a number (int).
-int	ft_atoi(char *s)
-{
-	long	nb;
-	int		ct;
-
-	nb = 0;
-	ct = 0;
-	if (s[ct] == '+' || s[ct] == '-')
-		ct++;
-	while (s[ct])
-		nb = 10 * nb + s[ct++] - 48;
-	if (s[0] == '-')
-		nb = -nb;
-	return ((int)(nb));
+	(void) size;
+	(void) stk;
+	(void) argv;
+	//inputs_is_invalid(argv);
 }
 
 // Check if the input has the appropriate format.
-int	input_is_invalid(char *argv)
+/*int	input_is_invalid(char *argv)
 {
 	char	**tab;
 	int		ct;
@@ -97,10 +62,10 @@ int	input_is_invalid(char *argv)
 	free_tab_str(tab, ct);
 	free(arr);
 	return (0);
-}
+}*/
 
 // Returns a new stack made of the list of integer given.
-t_array	*parse(char *argv)
+/*t_array	*parse(char *argv)
 {
 	t_array	*arr;
 	char	**tab;
@@ -123,4 +88,4 @@ t_array	*parse(char *argv)
 	}
 	free_tab_str(tab, ct);
 	return (arr);
-}
+}*/
