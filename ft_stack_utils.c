@@ -12,19 +12,16 @@
 
 #include "push_swap.h"
 
-/*int	in_stack(int *arr, int size, int nb)
+int	in_stack(t_stack *stk, int nb)
 {
-	int	ct;
-
-	ct = 0;
-	while (ct < size)
+	while (stk != NULL)
 	{
-		if (arr[ct] == nb)
+		if (stk->nb == nb)
 			return (1);
-		ct++;
+		stk = stk->next;
 	}
 	return (0);
-}*/
+}
 
 /*int	get_len_arr(char *s)
 {

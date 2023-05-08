@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:26:33 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:14:10 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,16 +130,19 @@ int	main(int argc, char **argv)
 {
 	t_stack	*stk;
 
+	printf("	TODO : print sortie erreur\n");
 	stk = NULL;
 	if (argc < 2)
 		exit(EXIT_SUCCESS);
 	else if (argc == 2)
-		parse_str(argv[1], stk);
+		parse_str(argv[1], &stk);
 	else
-		parse_strs(argc, argv, stk);
+		parse_strs(argc - 1, argv + 1, &stk);
+	printf("FIN PARSING\n");
+	print_stack(stk, 'l');
 	if (is_sorted(stk))
 		return (0);
-	printf("On est censé accepter les inputs \"1 2 3\" mais aussi 1 2 3 ...\n");
+	printf("DEBUT SWAP\n");
 	//printf("Parsing fini, debut du programme\n");
 	//push_swap(arr);
 	//system("leaks push_swap");
