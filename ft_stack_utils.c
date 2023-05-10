@@ -12,7 +12,7 @@
 
 #include "push_swap.h"
 
-int	in_stack(t_stack *stk, int nb)
+int	in_stack(int nb, t_stack *stk)
 {
 	while (stk != NULL)
 	{
@@ -23,21 +23,22 @@ int	in_stack(t_stack *stk, int nb)
 	return (0);
 }
 
-/*int	get_len_arr(char *s)
+int	is_sorted(t_stack *stk)
 {
-	int	size;
-	int	ct;
+	int	tmp;
 
-	size = 1;
-	ct = 0;
-	while (s[ct])
+	if (stk == NULL)
+		return (1);
+	tmp = stk->nb;
+	while (stk->next != NULL)
 	{
-		if (s[ct] == ' ')
-			size++;
-		ct++;
+		stk = stk->next;
+		if (stk->nb < tmp)
+			return (0);
+		tmp = stk->nb;
 	}
-	return (size);
-}*/
+	return (1);
+}
 
 t_stack	*pop_first(t_stack *stk)
 {
@@ -72,43 +73,4 @@ void	insert_first(t_stack *stk, t_stack *el)
 	while (stk->next != NULL)
 		stk = stk->next;
 	stk->next = el;
-}
-
-int	is_sorted(t_stack *stk)
-{
-	int	tmp;
-
-	if (stk == NULL)
-		return (1);
-	tmp = stk->nb;
-	while (stk->next != NULL)
-	{
-		stk = stk->next;
-		if (stk->nb < tmp)
-			return (0);
-		tmp = stk->nb;
-	}
-	return (1);
-}
-
-int	get_stack_size(t_stack *stk)
-{
-	int	size;
-
-	size = 0;
-	while (stk != NULL)
-	{
-		stk = stk->next;
-		size++;
-	}
-	return (size);
-}
-
-t_stack	*get_last(t_stack *stk)
-{
-	if (stk == NULL)
-		return (NULL);
-	while (stk->next != NULL)
-		stk = stk->next;
-	return (stk);
 }

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:55:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/08 20:27:21 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:18:04 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ void	parse_str(char *arg, t_stack **stk)
 		size = -1;
 		while (input[++size])
 			;
-		parse_strs(size, input, stk);
+		check_input(input);
+		*stk = ft_parse(size, input);
+		check_double(*stk);
+		free_tab_str(input, size);
 	}
 }
 
@@ -37,9 +40,9 @@ void	parse_str(char *arg, t_stack **stk)
 */
 void	parse_strs(int size, char **argv, t_stack **stk)
 {
-	(void) size;
 	check_input(argv);
 	*stk = ft_parse(size, argv);
+	check_double(*stk);
 }
 
 /**
@@ -55,10 +58,29 @@ void	check_input(char **argv)
 	ct = -1;
 	while (argv[++ct] != NULL)
 	{
-		if (is_not_number(*argv))
-			print_error(*argv, " is not an number.");
-		else if (is_not_int(*argv))
-			print_error(*argv, " is not an number in digit form.");
+		if (is_not_number(argv[ct]))
+			print_error(argv[ct], " is not an number.");
+		else if (is_not_int(argv[ct]))
+			print_error(argv[ct], " is not an integer.");
+	}
+}
+
+void	check_double(t_stack *stk)
+{
+	t_stack	*cur;
+	int		nb;
+
+	cur = stk;
+	while (cur != NULL)
+	{
+		nb = cur->nb;
+		if (in_stack(nb, cur->next))
+		{
+			free_stack(stk);
+			ft_putnbr_fd(nb, 2);
+			print_error("", " should be unique.");
+		}
+		cur = cur->next;
 	}
 }
 

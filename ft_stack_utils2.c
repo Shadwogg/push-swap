@@ -1,37 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   ft_stack_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/10 14:19:30 by ggiboury         ###   ########.fr       */
+/*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
+/*   Updated: 2023/05/10 13:19:33 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	free_tab_str(char **arr, int n)
+int	get_stack_size(t_stack *stk)
 {
-	while (n > 0)
+	int	size;
+
+	size = 0;
+	while (stk != NULL)
 	{
-		free(arr[n]);
-		n--;
+		stk = stk->next;
+		size++;
 	}
-	free(arr[0]);
-	free(arr);
+	return (size);
 }
 
-void	free_stack(t_stack *stk)
+t_stack	*get_last(t_stack *stk)
 {
-	t_stack	*next;
-
+	if (stk == NULL)
+		return (NULL);
 	while (stk->next != NULL)
-	{
-		next = stk->next;
-		free(stk);
-		stk = next;
-	}
-	free(stk);
+		stk = stk->next;
+	return (stk);
 }

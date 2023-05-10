@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/08 19:14:10 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:36:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,66 +71,47 @@ void	partition(t_array *a, int ind_piv)
 	(void) a;
 	(void) ind_piv;
 }*/
-/*
-void	quicksort(t_array *a, t_array *b)
-{
-	t_array	*left;
-	t_array	*right;
-	int		ind_piv;
 
-	if (!is_sorted(a))
+void	init_stack(t_stack *stk)
+{
+	t_stack			*cur;
+	t_stack			*save;
+	unsigned int	nb;
+
+	cur = stk;
+	save = stk;
+	while (cur != NULL)
 	{
-		ind_piv = get_pivot(a);
-		//piv = partition(a, b, piv);
-		partition(a, ind_piv);
-		left = divide(a, ind_piv);
-		right = divide(b, ind_piv);
-		return ;
-		quicksort(a, b); //deb
-		quicksort(left, right); //fin
+		nb = 0;
+		stk = save;
+		while (stk != NULL)
+		{
+			if (cur->nb > stk->nb)
+				nb++;
+			stk = stk->next;
+		}
+		cur->sorted_index = nb;
+		cur = cur->next;
 	}
 }
 
-// Returns the chosen pivot, in this case, the median value
-int	get_pivot(t_array *arr)
-{
-	int		piv;
-
-	(void) arr;
-	int		ct;
-	t_array	sorted;
-
-	piv = 0;
-	sorted.size = arr->size;
-	sorted.arr = malloc(sorted.size * sizeof(int));
-	if (sorted.arr == NULL)
-		return (-1);
-	ct = 0;
-	while (ct < sorted.size)
-	{
-		
-		ct++;
-	}
-	piv = 0;
-	return (piv);
-}*/
-
-int	push_swap(t_stack *stk_a)
+void	push_swap(t_stack *stk_a)
 {
 	t_stack	*stk_b;
 
 	stk_b = NULL;
-	print_stack(stk_a, 'l');
+	init_stack(stk_a);
+	//print_stack(stk_a, "-> ");
+	print_stack(stk_a, "\n");
+	pre_optimization(stk_a, stk_b);
 	//piv = get_pivot(a);
 	//quicksort(a, b);
-	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	*stk;
 
-	printf("	TODO : print sortie erreur\n");
 	stk = NULL;
 	if (argc < 2)
 		exit(EXIT_SUCCESS);
@@ -138,12 +119,8 @@ int	main(int argc, char **argv)
 		parse_str(argv[1], &stk);
 	else
 		parse_strs(argc - 1, argv + 1, &stk);
-	printf("FIN PARSING\n");
-	print_stack(stk, 'l');
 	if (is_sorted(stk))
 		return (0);
-	printf("DEBUT SWAP\n");
-	//printf("Parsing fini, debut du programme\n");
-	//push_swap(arr);
+	push_swap(stk);
 	//system("leaks push_swap");
 }
