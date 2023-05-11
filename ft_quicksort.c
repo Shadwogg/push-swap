@@ -6,47 +6,55 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:23:11 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/10 19:04:23 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:11:44 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 void	swap_val(t_stack *stk_a, t_stack *stk_b,
-	unsigned int ind_a, unsigned int ind_b)
+	t_stack *swapped_l, t_stack *swapped_r)
 {
 	(void) stk_a;
 	(void) stk_b;
-	(void) ind_a;
-	(void) ind_b;
-	printf("TEST \n");
+	(void) swapped_l;
+	(void) swapped_r;
+	printf("	SWAPPED \n");
 }
 
-// On regarde chaque element, et on les swap apres lindex du pivot.
-// SI un el a gauche est mal place, alors a droite aussi puisque pivot est valeur median.
-//CA VA MARCHER
-void	separate_stk(t_stack *stk_a, t_stack *stk_b, unsigned int piv)
+/*t_stack	*get_next_val(t_stack *stk, unsigned int piv)
 {
 	unsigned int	ct;
-	unsigned int	ct2;
-	t_stack			*swapped;
 
 	ct = 0;
 	while (ct < piv)
+		ct++;
+	while ()
 	{
-		if (stk_a->sorted_index > piv)
+		
+	}
+}*/
+
+// On regarde chaque element, et on les swap apres lindex du pivot.
+void	swap_part_stk(t_stack *stk_a, t_stack *stk_b, unsigned int piv)
+{
+	unsigned int	ct;
+	t_stack			*swapped;
+	t_stack			*cur;
+
+	cur = stk_a;
+	ct = 0;
+	while (ct < piv)
+	{
+		printf("TEST\n");
+		if (cur->sorted_index > piv)
 		{
-			//swap(stk_a, stk_b, ct, ct2);
-			ct2 = ct;
-			swapped = stk_a;
-			while (swapped != NULL && ct2 < piv && swapped->sorted_index > piv)
-			{
+			swapped = get_el(stk_a, piv);
+			while (swapped != NULL && swapped->sorted_index > piv)
 				swapped = swapped->next;
-				ct2++;
-			}
-			swap_val(stk_a, stk_b, ct, ct2);
+			swap_val(stk_a, stk_b, cur, swapped);
 		}
-		stk_a = stk_a->next;
+		cur = cur->next;
 		ct++;
 	}
 }
@@ -55,10 +63,8 @@ void	quicksort(t_stack *stk_a, t_stack *stk_b)
 {
 	unsigned int	piv;
 
-	ft_printf("C'est a ce moment que Mom su, il s'etait viande ;");
-	ft_printf(" Guigui, t'as mal compris l'algo en fait\n");
 	piv = get_pivot(stk_a);
-	separate_stk(stk_a, stk_b, piv);
+	swap_part_stk(stk_a, stk_b, piv);
 }
 
 /*void	quicksort(t_array *a, t_array *b)

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/10 18:09:37 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/11 17:10:14 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int				is_sorted(t_stack *stk);
 
 unsigned int	get_stack_size(t_stack *stk);
 t_stack			*get_last(t_stack *stk);
+t_stack			*get_el(t_stack *stk, unsigned int numero);
 
 void			free_stack(t_stack *stk);
 void			free_tab_str(char **arr, int size);
