@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/11 16:06:58 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/24 15:50:40 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	push_swap(t_stack *stk_a)
 	stk_b = NULL;
 	init_stack(stk_a);
 	//print_stack(stk_a, "-> ");
-	print_stack(stk_a, "\n");
 	pre_optimization(stk_a, stk_b);
 	quicksort(stk_a, stk_b);
 }

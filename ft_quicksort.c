@@ -6,19 +6,28 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:23:11 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/11 17:11:44 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/24 16:26:21 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 void	swap_val(t_stack *stk_a, t_stack *stk_b,
-	t_stack *swapped_l, t_stack *swapped_r)
+	t_stack *el, t_stack *el2)
 {
+	int				tmp;
+	unsigned int	tmp2;
+
 	(void) stk_a;
 	(void) stk_b;
-	(void) swapped_l;
-	(void) swapped_r;
+	if (el == el2)
+		return ;
+	tmp = el->nb;
+	el->nb = el2->nb;
+	el2->nb = tmp;
+	tmp2 = el->sorted_index;
+	el->sorted_index = el2->sorted_index;
+	el2->sorted_index = tmp2;
 	printf("	SWAPPED \n");
 }
 
@@ -35,6 +44,33 @@ void	swap_val(t_stack *stk_a, t_stack *stk_b,
 	}
 }*/
 
+void	swap_pivot(t_stack *stk_a, t_stack *stk_b, unsigned int piv)
+{
+	unsigned int	ct;
+	t_stack			*cur;
+	t_stack			*swap_piv;
+	t_stack			*swap_el;
+
+	ct = 0;
+	cur = stk_a;
+	swap_piv = NULL;
+	swap_el = NULL;
+	while (cur != NULL)
+	{
+		if (cur->sorted_index == piv)
+			swap_piv = cur;
+		if (ct == piv)
+			swap_el = cur;
+		if (swap_piv == swap_el && swap_piv != NULL)
+			return ;
+		if (swap_piv != NULL && swap_el != NULL)
+			break ;
+		cur = cur->next;
+		ct++;
+	}
+	swap_val(stk_a, stk_b, swap_piv, swap_el);
+}
+
 // On regarde chaque element, et on les swap apres lindex du pivot.
 void	swap_part_stk(t_stack *stk_a, t_stack *stk_b, unsigned int piv)
 {
@@ -42,11 +78,11 @@ void	swap_part_stk(t_stack *stk_a, t_stack *stk_b, unsigned int piv)
 	t_stack			*swapped;
 	t_stack			*cur;
 
+	printf("Valeur median = %d", piv);
 	cur = stk_a;
 	ct = 0;
 	while (ct < piv)
 	{
-		printf("TEST\n");
 		if (cur->sorted_index > piv)
 		{
 			swapped = get_el(stk_a, piv);
@@ -63,8 +99,11 @@ void	quicksort(t_stack *stk_a, t_stack *stk_b)
 {
 	unsigned int	piv;
 
+	print_stack(stk_a, "\n");
 	piv = get_pivot(stk_a);
-	swap_part_stk(stk_a, stk_b, piv);
+	swap_pivot(stk_a, stk_b, piv);
+	//swap_part_stk(stk_a, stk_b, piv);
+	print_stack(stk_a, "\n");
 }
 
 /*void	quicksort(t_array *a, t_array *b)
