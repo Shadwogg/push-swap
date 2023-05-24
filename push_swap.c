@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/24 15:50:40 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:26:35 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,14 @@ void	init_stack(t_stack *stk)
 
 void	push_swap(t_stack *stk_a)
 {
-	t_stack			*stk_b;
+	t_stack	*stk_b;
 
 	stk_b = NULL;
 	init_stack(stk_a);
-	//print_stack(stk_a, "-> ");
+	print_stack(stk_a, "-> ");
 	pre_optimization(stk_a, stk_b);
-	quicksort(stk_a, stk_b);
+	quicksort(stk_a, 0);
+	//print_stack(stk_a, "\n");
 }
 
 int	main(int argc, char **argv)

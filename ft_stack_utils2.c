@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/11 17:09:59 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:25:32 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,38 @@ t_stack	*get_el(t_stack *stk, unsigned int numero)
 	if (stk != NULL)
 		return (stk);
 	return (NULL);
+}
+
+/**
+ * Split the stack in two, at the piv position
+ * Return the right half of the stack. 
+*/
+t_stack	*divide(t_stack *stk, unsigned int piv, unsigned int deep)
+{
+	unsigned int	ct;
+	t_stack			*cur;
+
+	(void) deep;
+	ct = 0;
+	while (ct < piv)
+	{
+		stk = stk->next;
+		ct++;
+	}
+	cur = stk->next;
+	stk->next = NULL;
+	update_index(cur);
+	return (cur);
+}
+
+void	update_index(t_stack *stk)
+{
+	int	size;
+
+	size = get_stack_size(stk);
+	while (stk != NULL)
+	{
+		stk->sorted_index -= size + 1;
+		stk = stk->next;
+	}
 }

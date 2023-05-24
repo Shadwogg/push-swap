@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 19:11:18 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/10 17:36:14 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/24 18:17:01 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	print_stack(t_stack *stk, char *str)
 
 void	stderr_print(char *s)
 {
-	ft_putstr_fd(s, 2);
+	if (s != NULL)
+		ft_putstr_fd(s, 2);
 }

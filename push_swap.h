@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/11 17:10:14 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/24 19:27:10 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int				is_sorted(t_stack *stk);
 unsigned int	get_stack_size(t_stack *stk);
 t_stack			*get_last(t_stack *stk);
 t_stack			*get_el(t_stack *stk, unsigned int numero);
+void			update_index(t_stack *stk);
 
 void			free_stack(t_stack *stk);
 void			free_tab_str(char **arr, int size);
@@ -69,8 +70,9 @@ int				in_stack(int nb, t_stack *stk);
 /************************************MAIN************************************/
 
 void			push_swap(t_stack *stk_a);
-void			quicksort(t_stack *a, t_stack *b);
+void			quicksort(t_stack *a, unsigned int deep);
 unsigned int	get_pivot(t_stack *arr);
+t_stack			*divide(t_stack *stk, unsigned int piv, unsigned int deep);
 
 void			pre_optimization(t_stack *stk_a, t_stack *stk_b);
 
