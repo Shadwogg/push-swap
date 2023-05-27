@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/24 19:27:10 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/27 01:26:54 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_stack
 {
 	int				nb;
 	unsigned int	sorted_index;
+	unsigned int	size;
 	struct s_stack	*next;
 }	t_stack;
 
@@ -75,5 +76,7 @@ unsigned int	get_pivot(t_stack *arr);
 t_stack			*divide(t_stack *stk, unsigned int piv, unsigned int deep);
 
 void			pre_optimization(t_stack *stk_a, t_stack *stk_b);
+
+void			pre_traduction(t_stack *stk, t_stack *el, t_stack *el2);
 
 #endif

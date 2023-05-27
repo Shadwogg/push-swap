@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/24 19:26:35 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/27 01:29:09 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ void	init_stack(t_stack *stk)
 	t_stack			*cur;
 	t_stack			*save;
 	unsigned int	nb;
+	unsigned int	size;
 
 	cur = stk;
 	save = stk;
+	size = get_stack_size(stk);
 	while (cur != NULL)
 	{
 		nb = 0;
@@ -90,6 +92,7 @@ void	init_stack(t_stack *stk)
 				nb++;
 			stk = stk->next;
 		}
+		cur->size = size;
 		cur->sorted_index = nb;
 		cur = cur->next;
 	}
@@ -110,8 +113,10 @@ void	push_swap(t_stack *stk_a)
 int	main(int argc, char **argv)
 {
 	t_stack	*stk;
+	char	val;
 
 	stk = NULL;
+	val = 2;
 	if (argc < 2)
 		exit(EXIT_SUCCESS);
 	else if (argc == 2)

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:23:11 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/24 19:28:06 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/27 01:41:32 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	swap_val(t_stack *stk_a, unsigned int deep, t_stack *el, t_stack *el2)
 	tmp2 = el->sorted_index;
 	el->sorted_index = el2->sorted_index;
 	el2->sorted_index = tmp2;
+	pre_traduction(stk_a, el, el2);
 }
 
 /*t_stack	*get_next_val(t_stack *stk, unsigned int piv)
@@ -80,7 +81,6 @@ void	swap_part_stk(t_stack *stk_a, unsigned int piv, unsigned int deep)
 	t_stack			*swapped;
 	t_stack			*cur;
 
-	printf("Valeur median = %d", piv);
 	cur = stk_a;
 	ct = 0;
 	while (ct < piv)
@@ -128,7 +128,6 @@ unsigned int	get_pivot(t_stack *a)
 	unsigned int	pivot;
 
 	pivot = get_stack_size(a) / 2;
-	printf("pivot = %d\n", pivot);
 	return (pivot);
 }
 /*
