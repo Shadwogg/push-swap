@@ -6,32 +6,12 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/27 01:29:09 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:33:04 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 /*
-t_list	*ft_sort(t_list *a)
-{
-	t_list	*lst;
-	int		min;
-
-	if (a == NULL || ft_len_stack(a) == 1)
-		return (a);
-	min = INT_MAX;
-	lst = NULL;
-	while (ft_len_stack(lst) < ft_len_stack(a))
-	{
-		
-		if ()
-		{
-			
-		}
-	}
-	return (lst);
-}
-
   *
   *
   *
@@ -52,25 +32,7 @@ t_list	*ft_sort(t_list *a)
     <11,500 moves = 1 pts
   * 
   *  
-z
 */
-/*
-t_array	*divide(t_array *a, int piv)
-{
-	(void) a;
-	(void) piv;
-	return (NULL);
-}*/
-
-/**
- * Swap the elements so that each element are sorted in relative to the pivot.
- * Then, it places the pivot in the median index
-*//*
-void	partition(t_array *a, int ind_piv)
-{
-	(void) a;
-	(void) ind_piv;
-}*/
 
 void	init_stack(t_stack *stk)
 {
@@ -98,15 +60,31 @@ void	init_stack(t_stack *stk)
 	}
 }
 
+void	read_inst(t_inst *inst)
+{
+	while (inst != NULL)
+	{
+		ft_printf("%s\n", inst->str);
+		inst = inst->next;
+	}
+}
+
 void	push_swap(t_stack *stk_a)
 {
 	t_stack	*stk_b;
+	t_inst	*instructions;
 
+	instructions = malloc(sizeof(t_inst));
+	if (instructions == NULL)
+		print_error("", "MALLOC ERROR");
+	instructions->next = NULL;
+	instructions->str = "";
 	stk_b = NULL;
 	init_stack(stk_a);
 	print_stack(stk_a, "-> ");
 	pre_optimization(stk_a, stk_b);
-	quicksort(stk_a, 0);
+	quicksort(stk_a, instructions);
+	read_inst(instructions);
 	//print_stack(stk_a, "\n");
 }
 

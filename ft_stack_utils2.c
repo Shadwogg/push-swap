@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/27 00:49:02 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:57:44 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,32 @@ t_stack	*get_el(t_stack *stk, unsigned int numero)
 {
 	unsigned int	ct;
 
-	ct = -1;
-	while (++ct < numero && stk != NULL)
+	ct = 0;
+	while (ct < numero && stk != NULL)
+	{
 		stk = stk->next;
-	if (stk != NULL)
-		return (stk);
-	return (NULL);
+		ct++;
+	}
+	return (stk);
+}
+
+t_stack	*get_el_sorted(t_stack *stk, unsigned int numero)
+{
+	while (stk != NULL && stk->sorted_index != numero)
+		stk = stk->next;
+	return (stk);
 }
 
 /**
  * Split the stack in two, at the piv position
  * Return the right half of the stack. 
 */
-t_stack	*divide(t_stack *stk, unsigned int piv, unsigned int deep)
+t_stack	*divide(t_stack *stk, unsigned int piv, t_inst *inst)
 {
 	unsigned int	ct;
 	t_stack			*cur;
 
-	(void) deep;
+	(void) inst;
 	ct = 0;
 	while (ct < piv)
 	{
@@ -64,11 +72,11 @@ t_stack	*divide(t_stack *stk, unsigned int piv, unsigned int deep)
 	}
 	cur = stk->next;
 	stk->next = NULL;
-	update_index(cur);
+	//update_index(cur);
 	return (cur);
 }
 
-void	update_index(t_stack *stk)
+/*void	update_index(t_stack *stk)
 {
 	int	size;
 
@@ -78,4 +86,4 @@ void	update_index(t_stack *stk)
 		stk->sorted_index -= size + 1;
 		stk = stk->next;
 	}
-}
+}*/

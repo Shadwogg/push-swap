@@ -6,76 +6,45 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:23:11 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/27 01:41:32 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/05/29 17:58:59 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap_val(t_stack *stk_a, unsigned int deep, t_stack *el, t_stack *el2)
+void	swap_val(t_stack *stk, t_inst *inst, t_stack *el, t_stack *el2)
 {
 	int				tmp;
 	unsigned int	tmp2;
 
-	(void) stk_a;
-	(void) deep;
-	if (el == el2)
-		return ;
-	if (el == NULL)
-		print_error("", "el null.");
-	else if (el2 == NULL)
-		print_error("", "el2 null.");
+	pre_traduction(stk, inst, el, el2);
 	tmp = el->nb;
+	tmp2 = el->sorted_index;
 	el->nb = el2->nb;
 	el2->nb = tmp;
-	tmp2 = el->sorted_index;
 	el->sorted_index = el2->sorted_index;
 	el2->sorted_index = tmp2;
-	pre_traduction(stk_a, el, el2);
 }
 
-/*t_stack	*get_next_val(t_stack *stk, unsigned int piv)
-{
-	unsigned int	ct;
-
-	ct = 0;
-	while (ct < piv)
-		ct++;
-	while ()
-	{
-		
-	}
-}*/
-
-void	swap_pivot(t_stack *stk_a, unsigned int piv, unsigned int deep)
+void	swap_pivot(t_stack *stk, unsigned int piv, t_inst *inst)
 {
 	unsigned int	ct;
 	t_stack			*cur;
-	t_stack			*swap_piv;
-	t_stack			*swap_el;
+	t_stack			*false_piv;
+	t_stack			*true_piv;
 
 	ct = 0;
-	cur = stk_a;
-	swap_piv = NULL;
-	swap_el = NULL;
-	while (cur != NULL)
-	{
-		if (cur->sorted_index == piv)
-			swap_piv = cur;
-		if (ct == piv)
-			swap_el = cur;
-		if (swap_piv == swap_el && swap_piv != NULL)
-			return ;
-		if (swap_piv != NULL && swap_el != NULL)
-			break ;
-		cur = cur->next;
-		ct++;
-	}
-	swap_val(stk_a, deep, swap_piv, swap_el);
+	cur = stk;
+	false_piv = get_el(stk, piv);
+	true_piv = get_el_sorted(stk, piv);
+	if (false_piv == NULL || true_piv == NULL)
+		print_error("", "NULL ERREUR SWAP PIVOT");
+	if (true_piv != false_piv)
+		swap_val(stk, inst, true_piv, false_piv);
 }
 
 // On regarde chaque element, et on les swap apres lindex du pivot.
-void	swap_part_stk(t_stack *stk_a, unsigned int piv, unsigned int deep)
+void	swap_part_stk(t_stack *stk_a, unsigned int piv, t_inst *inst)
 {
 	unsigned int	ct;
 	t_stack			*swapped;
@@ -90,7 +59,7 @@ void	swap_part_stk(t_stack *stk_a, unsigned int piv, unsigned int deep)
 			swapped = get_el(stk_a, piv);
 			while (swapped != NULL && swapped->sorted_index >= piv)
 				swapped = swapped->next;
-			swap_val(stk_a, deep, cur, swapped);
+			swap_val(stk_a, inst, cur, swapped);
 		}
 		cur = cur->next;
 		ct++;
@@ -101,7 +70,7 @@ void	swap_part_stk(t_stack *stk_a, unsigned int piv, unsigned int deep)
  * 
  * Non thread safe.
  */
-void	quicksort(t_stack *stk_a, unsigned int deep)
+void	quicksort(t_stack *stk_a, t_inst *instructions)
 {
 	unsigned int	piv;
 	t_stack			*right;
@@ -110,14 +79,15 @@ void	quicksort(t_stack *stk_a, unsigned int deep)
 		return ;
 	//print_stack(stk_a, "\n");
 	piv = get_pivot(stk_a);
-	swap_pivot(stk_a, piv, deep);
-	swap_part_stk(stk_a, piv, deep);
+	swap_pivot(stk_a, piv, instructions);
+	//printf("--------------------\n");
+	swap_part_stk(stk_a, piv, instructions);
 	//print_stack(stk_a, "\n");
-	right = divide(stk_a, piv, deep);
-	quicksort(stk_a, deep + 1);
-	quicksort(right, deep + 1);
-	print_stack(right, "| ");
-	print_stack(stk_a, "| ");
+	right = divide(stk_a, piv, instructions);
+	//quicksort(stk_a, instructions);
+	//quicksort(right, instructions);
+	//print_stack(right, "| ");
+	//print_stack(stk_a, "| ");
 }
 
 /**
