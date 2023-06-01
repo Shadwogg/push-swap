@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:35:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/06 20:20:53 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:58:27 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,28 @@
 
 // Swap the two first element from the stack
 // Does nothing if the stack has less than two element.
-void	swap(t_stack *stk)
-{
-	int	tmp;
-
-	if (get_stack_size(stk) < 2)
-		return ;
-	tmp = stk->next->nb;
-	stk->next->nb = stk->nb;
-	stk->nb = tmp;
-}
-
-// Push the first element from the stack a to the stack b.
-// Does nothing if the stack a is empty.
-void	push(t_stack *stk_a, t_stack *stk_b)
+void	swap(t_stack **stk)
 {
 	t_stack	*tmp;
 
-	if (stk_a == NULL)
-		return ;
-	tmp = pop_first(stk_a);
-	insert_first(stk_b, tmp);
+	printf("A VERIF\n");
+	tmp = (*stk)->next;
+	(*stk)->next = tmp->next;
+	tmp->next = *stk;
+	*stk = tmp;
+}
+
+// Push the first element from the stack 1 to the stack 2.
+// Does nothing if the stack 1 is empty.
+void	push(t_stack **stk_1, t_stack **stk_2)
+{
+	t_stack	*tmp;
+
+	tmp = *stk_2;
+	tmp->next = *stk_1;
+	*stk_2 = (*stk_2)->next;
+	*stk_1 = tmp;
+	printf("TO VERIFIER\n");
 }
 
 //Shift up all elements of the stack by 1 (the first element become the last)
@@ -42,8 +43,6 @@ void	rotate(t_stack *stk)
 {
 	t_stack	*tmp;
 
-	if (stk == NULL || stk->next == NULL)
-		return ;
 	tmp = pop_first(stk);
 	get_last(stk)->next = tmp;
 }
@@ -53,8 +52,7 @@ void	reverse_rotate(t_stack *stk)
 {
 	t_stack	*tmp;
 
-	if (stk == NULL || stk->next == NULL)
-		return ;
 	tmp = pop_last(stk);
 	insert_first(stk, tmp);
+	return ()
 }

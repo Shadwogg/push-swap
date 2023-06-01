@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:23:11 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/29 17:58:59 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:27:57 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	swap_part_stk(t_stack *stk_a, unsigned int piv, t_inst *inst)
  * 
  * Non thread safe.
  */
-void	quicksort(t_stack *stk_a, t_inst *instructions)
+/*void	quicksort(t_stack *stk_a, t_inst *instructions)
 {
 	unsigned int	piv;
 	t_stack			*right;
@@ -88,7 +88,7 @@ void	quicksort(t_stack *stk_a, t_inst *instructions)
 	//quicksort(right, instructions);
 	//print_stack(right, "| ");
 	//print_stack(stk_a, "| ");
-}
+}*/
 
 /**
  * The pivot is the index of the median value rounded down to the integer below.

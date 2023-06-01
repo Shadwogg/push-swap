@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/29 15:33:04 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:34:13 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,56 @@ void	read_inst(t_inst *inst)
 	}
 }
 
+unsigned int	count_same_inst(t_inst *inst)
+{
+	unsigned int	ct;
+
+	ct = 0;
+	while (inst != NULL && inst->next != NULL && inst->str == inst->next->str)
+		inst = inst->next;
+	return (ct);
+}
+
+void	opti_inst(t_inst *instructions)
+{
+	//t_inst			*tmp;
+	t_inst			*inst;
+	unsigned int	ct;
+
+	inst = instructions;
+	while (inst != NULL)
+	{
+		ct = count_same_inst(inst);
+		//if (inst->str == "ra" || inst->str == "rra")
+		inst = inst->next;
+	}
+}
+
+t_inst	*get_inst(t_inst *inst, unsigned int nb)
+{
+	while (inst != NULL && --nb > 0)
+		inst = inst->next;
+	return (inst);
+}
+
+void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
+{
+	t_stack			*cur;
+	unsigned int	median;
+	unsigned int	ct;
+
+	cur = stk_a;
+	ct = 0;
+	median = get_pivot(stk_a);
+	while (ct < median * 2)
+	{
+		if (cur->sorted_index > median)
+			push_b(&stk_a, &stk_b, inst);
+		rotate_a(&stk_a, inst);
+		ct++;
+	}
+}
+
 void	push_swap(t_stack *stk_a)
 {
 	t_stack	*stk_b;
@@ -82,10 +132,12 @@ void	push_swap(t_stack *stk_a)
 	stk_b = NULL;
 	init_stack(stk_a);
 	print_stack(stk_a, "-> ");
-	pre_optimization(stk_a, stk_b);
+	/*pre_optimization(stk_a, stk_b);
 	quicksort(stk_a, instructions);
-	read_inst(instructions);
+	opti_inst(instructions);*/
 	//print_stack(stk_a, "\n");
+	mon_algo(stk_a, stk_b, instructions);
+	read_inst(instructions);
 }
 
 int	main(int argc, char **argv)

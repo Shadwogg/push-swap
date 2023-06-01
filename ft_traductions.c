@@ -6,13 +6,13 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 00:57:46 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/29 17:54:12 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/01 17:39:32 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	traduction(t_stack *stk, t_inst *inst, unsigned int pos_l, unsigned int pos_r)
+/*void	traduction(t_stack *stk, t_inst *inst, unsigned int pos_l, unsigned int pos_r)
 {
 	if (pos_l < stk->size - pos_r)
 	{
@@ -38,7 +38,7 @@ void	traduction(t_stack *stk, t_inst *inst, unsigned int pos_l, unsigned int pos
 		add_inst(inst, "pa", 1);
 		add_inst(inst, "ra", stk->size - pos_r);
 	}
-}
+}*/
 
 void	pre_traduction(t_stack *stk, t_inst *inst, t_stack *el, t_stack *el2)
 {
@@ -62,8 +62,73 @@ void	pre_traduction(t_stack *stk, t_inst *inst, t_stack *el, t_stack *el2)
 	}
 	if (pos == -1 || pos2 == -1)
 		printf("ERROR\n");
+	(void) inst;
+	/*
 	if (pos < pos2)
 		traduction(stk, inst, pos, pos2);
 	else
-		traduction(stk, inst, pos2, pos);
+		traduction(stk, inst, pos2, pos);*/
+}
+
+void	swap_a(t_stack **stk, t_inst *inst)
+{
+	if (get_stack_size(*stk) < 2)
+		return ;
+	*stk = swap(*stk);
+	add_inst(inst, "sa", 1);
+}
+
+void	swap_b(t_stack **stk, t_inst *inst)
+{
+	if (get_stack_size(*stk) < 2)
+		return ;
+	*stk = swap(*stk);
+	add_inst(inst, "sb", 1);
+}
+
+void	push_a(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
+{
+	if (stk_b == NULL || *stk_b == NULL)
+		return ;
+	*stk_b = push(*stk_b, stk_a);
+	add_inst(inst, "pa", 1);
+}
+
+void	push_b(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
+{
+	if (stk_a == NULL || *stk_a == NULL)
+		return ;
+	*stk_a = push(*stk_a, stk_b);
+	add_inst(inst, "pb", 1);
+}
+
+void	rotate_a(t_stack **stk, t_inst *inst)
+{
+	if (stk == NULL || (*stk)->next == NULL)
+		return ;
+	*stk = rotate(stk);
+	add_inst(inst, "rb", 1);
+}
+
+void	rotate_b(t_stack **stk, t_inst *inst)
+{
+	if (stk == NULL || (*stk)->next == NULL)
+		return ;
+	*stk = rotate(stk);
+	add_inst(inst, "rb", 1);
+}
+
+void	reverse_rotate_a(t_stack **stk, t_inst *inst)
+{
+	if (stk == NULL || (*stk)->next == NULL)
+		return ;
+	*stk = reverse_rotate(stk);
+	add_inst(inst, "rra", 1);
+}
+void	reverse_rotate_b(t_stack **stk, t_inst *inst)
+{
+	if (stk == NULL || (*stk)->next == NULL)
+		return ;
+	*stk = reverse_rotate(stk);
+	add_inst(inst, "rrb", 1);
 }

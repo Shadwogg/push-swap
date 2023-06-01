@@ -63,13 +63,14 @@ t_stack	*pop_last(t_stack *stk)
 	return (tmp);
 }
 
-void	insert_first(t_stack *stk, t_stack *el)
+void	insert_first(t_stack **stk, t_stack *el)
 {
-	if (stk == NULL)
+	if (stk == NULL || *stk == NULL)
 	{
 		*stk = *el;
 		return ;
 	}
+	el->next = stk;
 	while (stk->next != NULL)
 		stk = stk->next;
 	stk->next = el;
