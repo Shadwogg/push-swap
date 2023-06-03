@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/01 17:34:13 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/03 17:52:59 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ void	init_stack(t_stack *stk)
 	t_stack			*cur;
 	t_stack			*save;
 	unsigned int	nb;
-	unsigned int	size;
 
 	cur = stk;
 	save = stk;
-	size = get_stack_size(stk);
 	while (cur != NULL)
 	{
 		nb = 0;
@@ -54,7 +52,6 @@ void	init_stack(t_stack *stk)
 				nb++;
 			stk = stk->next;
 		}
-		cur->size = size;
 		cur->sorted_index = nb;
 		cur = cur->next;
 	}
@@ -101,6 +98,38 @@ t_inst	*get_inst(t_inst *inst, unsigned int nb)
 	return (inst);
 }
 
+void	algo_rec(t_stack *stk_a, t_stack *stk_b, t_inst *inst, int time)
+{
+	unsigned int	median[2];
+	unsigned int	ct[2];
+
+	median[0] = get_pivot(stk_a);
+	median[1] = get_pivot(stk_b);
+	ct[0] = 0;
+	ct[1] = 0;
+	while (ct[0] <= median[0] && ct[1] <= median[1])
+	{
+		if (stk_a->sorted_index > median[0])
+		{
+			push_b(&stk_a, &stk_b, inst);
+			rotate_b(&stk_b, inst);
+		}
+		else
+			rotate_a(&stk_a, inst);
+		if (stk_b->sorted_index > median[1])
+		{
+			push_a(&stk_a, &stk_b, inst);
+			rotate_a(&stk_b, inst);
+		}
+		else
+			rotate_b(&stk_a, inst);
+		ct[0]++;
+		ct[1]++;
+	}
+	if (time < 1)
+		algo_rec(stk_a, stk_b, inst, time + 1);
+}
+
 void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 {
 	t_stack			*cur;
@@ -112,11 +141,13 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 	median = get_pivot(stk_a);
 	while (ct < median * 2)
 	{
-		if (cur->sorted_index > median)
+		if (stk_a->sorted_index > median)
 			push_b(&stk_a, &stk_b, inst);
-		rotate_a(&stk_a, inst);
+		else
+			rotate_a(&stk_a, inst);
 		ct++;
 	}
+	algo_rec(stk_a, stk_b, inst, 1);
 }
 
 void	push_swap(t_stack *stk_a)
@@ -131,7 +162,8 @@ void	push_swap(t_stack *stk_a)
 	instructions->str = "";
 	stk_b = NULL;
 	init_stack(stk_a);
-	print_stack(stk_a, "-> ");
+	//print_stack(stk_a, "-> ");
+	//print_stack(stk_b, "-> ");
 	/*pre_optimization(stk_a, stk_b);
 	quicksort(stk_a, instructions);
 	opti_inst(instructions);*/

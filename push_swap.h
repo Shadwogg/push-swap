@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/01 17:55:43 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/03 16:47:15 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_stack
 {
 	int				nb;
 	unsigned int	sorted_index;
-	unsigned int	size;
 	struct s_stack	*next;
 }	t_stack;
 

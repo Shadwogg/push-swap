@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 00:57:46 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/01 17:39:32 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/03 19:17:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	swap_a(t_stack **stk, t_inst *inst)
 {
 	if (get_stack_size(*stk) < 2)
 		return ;
-	*stk = swap(*stk);
+	swap(stk);
 	add_inst(inst, "sa", 1);
 }
 
@@ -82,7 +82,7 @@ void	swap_b(t_stack **stk, t_inst *inst)
 {
 	if (get_stack_size(*stk) < 2)
 		return ;
-	*stk = swap(*stk);
+	swap(stk);
 	add_inst(inst, "sb", 1);
 }
 
@@ -90,7 +90,7 @@ void	push_a(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 {
 	if (stk_b == NULL || *stk_b == NULL)
 		return ;
-	*stk_b = push(*stk_b, stk_a);
+	push(stk_b, stk_a);
 	add_inst(inst, "pa", 1);
 }
 
@@ -98,37 +98,37 @@ void	push_b(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 {
 	if (stk_a == NULL || *stk_a == NULL)
 		return ;
-	*stk_a = push(*stk_a, stk_b);
+	push(stk_a, stk_b);
 	add_inst(inst, "pb", 1);
 }
 
 void	rotate_a(t_stack **stk, t_inst *inst)
 {
-	if (stk == NULL || (*stk)->next == NULL)
+	if (stk == NULL || *stk == NULL || (*stk)->next == NULL)
 		return ;
-	*stk = rotate(stk);
-	add_inst(inst, "rb", 1);
+	rotate(stk);
+	add_inst(inst, "ra", 1);
 }
 
 void	rotate_b(t_stack **stk, t_inst *inst)
 {
-	if (stk == NULL || (*stk)->next == NULL)
+	if (stk == NULL || *stk == NULL || (*stk)->next == NULL)
 		return ;
-	*stk = rotate(stk);
+	rotate(stk);
 	add_inst(inst, "rb", 1);
 }
 
 void	reverse_rotate_a(t_stack **stk, t_inst *inst)
 {
-	if (stk == NULL || (*stk)->next == NULL)
+	if (stk == NULL || *stk == NULL || (*stk)->next == NULL)
 		return ;
-	*stk = reverse_rotate(stk);
+	reverse_rotate(stk);
 	add_inst(inst, "rra", 1);
 }
 void	reverse_rotate_b(t_stack **stk, t_inst *inst)
 {
-	if (stk == NULL || (*stk)->next == NULL)
+	if (stk == NULL || *stk == NULL || (*stk)->next == NULL)
 		return ;
-	*stk = reverse_rotate(stk);
+	reverse_rotate(stk);
 	add_inst(inst, "rrb", 1);
 }
