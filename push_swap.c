@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/03 17:52:59 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/05 19:42:11 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,28 @@ void	algo_rec(t_stack *stk_a, t_stack *stk_b, t_inst *inst, int time)
 		algo_rec(stk_a, stk_b, inst, time + 1);
 }
 
+void	algo2_rec(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
+{
+	t_stack			*cur;
+	unsigned int	median;
+	unsigned int	ct;
+
+	while (!is_sorted(stk_a))
+	{
+		cur = stk_a;
+		ct = 0;
+		median = get_pivot(stk_a);
+		while (ct < median * 2)
+		{
+			if (stk_a->sorted_index > median)
+				push_b(&stk_a, &stk_b, inst);
+			else
+				rotate_a(&stk_a, inst);
+			ct++;
+		}
+	}
+}
+
 void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 {
 	t_stack			*cur;
@@ -147,7 +169,13 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 			rotate_a(&stk_a, inst);
 		ct++;
 	}
-	algo_rec(stk_a, stk_b, inst, 1);
+	//algo_rec(stk_a, stk_b, inst, 1);
+	algo2_rec(stk_a, stk_b, inst);
+	printf("sizze = %d \n", get_stack_size(stk_b));
+	while (stk_b != NULL)
+	{
+		push_a(&stk_a, &stk_b, inst);
+	}
 }
 
 void	push_swap(t_stack *stk_a)
