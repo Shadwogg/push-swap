@@ -23,7 +23,7 @@ int	in_stack(int nb, t_stack *stk)
 	return (0);
 }
 
-int	is_sorted(t_stack *stk)
+int	is_sorted(t_stack *stk, char order)
 {
 	int	tmp;
 
@@ -33,12 +33,19 @@ int	is_sorted(t_stack *stk)
 	while (stk->next != NULL)
 	{
 		stk = stk->next;
-		if (stk->nb < tmp)
-			return (0);
+		if (order == 0)
+		{
+			if (stk->nb < tmp)
+				return (0);
+		}
+		else
+			if (stk->nb > tmp)
+				return (0);
 		tmp = stk->nb;
 	}
 	return (1);
 }
+
 
 t_stack	*pop_first(t_stack *stk)
 {

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/03 16:47:15 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:23:17 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			insert_first(t_stack *stk, t_stack *el);
 t_stack			*pop_first(t_stack *stk);
 t_stack			*pop_last(t_stack *stk);
 
-int				is_sorted(t_stack *stk);
+int				is_sorted(t_stack *stk, char order);
 
 unsigned int	get_stack_size(t_stack *stk);
 t_stack			*get_last(t_stack *stk);
@@ -84,14 +84,14 @@ void			pre_traduction(t_stack *stk, t_inst *inst,
 void			add_inst(t_inst	*inst, char *str, unsigned int time);
 t_stack			*get_el_sorted(t_stack *stk, unsigned int numero);
 
-void	swap_a(t_stack **stk, t_inst *inst);
-void	swap_b(t_stack **stk, t_inst *inst);
-void	push_a(t_stack **stk_a, t_stack **stk_b, t_inst *inst);
-void	push_b(t_stack **stk_a, t_stack **stk_b, t_inst *inst);
-void	rotate_a(t_stack **stk, t_inst *inst);
-void	rotate_b(t_stack **stk, t_inst *inst);
-void	reverse_rotate_a(t_stack **stk, t_inst *inst);
-void	reverse_rotate_b(t_stack **stk, t_inst *inst);
+void			swap_a(t_stack **stk, t_inst *inst);
+void			swap_b(t_stack **stk, t_inst *inst);
+void			push_a(t_stack **stk_a, t_stack **stk_b, t_inst *inst);
+void			push_b(t_stack **stk_a, t_stack **stk_b, t_inst *inst);
+void			rotate_a(t_stack **stk, t_inst *inst);
+void			rotate_b(t_stack **stk, t_inst *inst);
+void			reverse_rotate_a(t_stack **stk, t_inst *inst);
+void			reverse_rotate_b(t_stack **stk, t_inst *inst);
 
 
 #endif

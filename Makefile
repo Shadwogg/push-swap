@@ -6,14 +6,17 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/05/29 17:54:29 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/06/10 18:38:19 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+SHELL = /bin/sh
+
+FLAGS = -Wall -Werror -Wextra
+
 NAME = push_swap
 
-SRC = push_swap.c			\
-		ft_free.c			\
+SRCS = ft_free.c			\
 		ft_instructions.c	\
 		ft_optimizations.c	\
 		ft_parse.c			\
@@ -26,15 +29,23 @@ SRC = push_swap.c			\
 		ft_utils.c			\
 		ft_write.c			
 
+S_MAIN = push_swap.c
+
 SRC_BONUS = checker.c		\
 			ft_atoi.c		\
 			ft_read.c
 
-FLAGS = -Wall -Werror -Wextra
-LIB = -L. -lft
+OBJS_COMMON = $(SRCS:.c=.o)
+
+OBJ_MAIN = $(S_MAIN:.c=.o)
+
+
 
 LIBFT_DIR = libft
-LIBFT_FILE = ./libft.a
+LIBFT = ./libft.a
+
+LIB = $(LIBFT)
+
 
 NC=\033[0m
 GREEN=\033[0;32m
@@ -45,32 +56,47 @@ BOLD=\033[1m
 
 all : $(NAME)
 
-lib :
-	@if [ ! -f $(LIBFT_FILE) ]; then \
-		echo "Loading libft";\
-		make -C $(LIBFT_DIR);\
-		mv $(LIBFT_DIR)/libft.a $(LIBFT_FILE);\
-		echo "$(GREEN)All libs loaded.$(NC)";\
+$(LIBFT) :
+	@echo "Loading $(BOLD)libft$(NC)"
+	@make -C $(LIBFT_DIR)
+	@mv $(LIBFT_DIR)/libft.a $(LIBFT)
+	@if [ ! -f $(LIBFT) ]; then \
+		echo "$(RED)Echec while loading libft.$(NC)";\
 	else \
-		echo "$(GREEN)Lib $(BOLD)libft$(GREEN) already there.$(NC)";\
+		echo "$(GREEN)$(LIBFT) loaded.$(NC)";\
 	fi
 
-$(NAME) : lib
-	@gcc $(FLAGS) $(SRC) -o $(NAME) $(LIB)
+lib : $(LIBFT)
+	@echo "$(GREEN)All libs present.$(NC)";\
+
+$(OBJS_COMMON) : $(SRCS)
+	@gcc $(FLAGS) $? -c
+
+$(OBJ_MAIN) : $(S_MAIN)
+	@gcc $(FLAGS) $? -c
+
+$(NAME) : $(OBJS_COMMON) $(OBJ_MAIN) lib
+	@gcc $(FLAGS) $(OBJS_COMMON) $(OBJ_MAIN) -o $(NAME) $(LIB)
 	@echo "$(GREEN)push_swap ready to be executed.$(NC)"
 
 re : fclean $(NAME)
 
 clean :
 	@make -C $(LIBFT_DIR) clean
-	@echo "$(GREEN)All unnecessary files removed.$(NC)"
+	@/bin/rm -rf $(OBJS_COMMON)
+	@/bin/rm -rf $(OBJ_MAIN)
+	@echo ".o files removed."
 
 fclean : clean
-	@/bin/rm -f $(NAME)
-	@/bin/rm -rf $(LIBFT_FILE)
 	@make -C $(LIBFT_DIR) fclean
+	@/bin/rm -f $(NAME)
+	@/bin/rm -f $(LIBFT)
 	@echo "$(GREEN)All compiled files removed.$(NC)"
 
+debug : $(OBJS_COMMON) $(OBJ_MAIN) lib
+	@gcc $(FLAGS) $(OBJS_COMMON) $(OBJ_MAIN) -o $(NAME) $(LIB) -g3
+	valgrind ./push_swap 1 2 3
+	
 test : re
 #	./push_swap "-2147483648 1 0 -1 2147483647"
 #	./push_swap 1 2 3 4 0 

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/05 19:42:11 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:33:50 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
   *  
 */
 
-void	init_stack(t_stack *stk)
+void	update_indexes(t_stack *stk)
 {
 	t_stack			*cur;
 	t_stack			*save;
@@ -98,58 +98,66 @@ t_inst	*get_inst(t_inst *inst, unsigned int nb)
 	return (inst);
 }
 
-void	algo_rec(t_stack *stk_a, t_stack *stk_b, t_inst *inst, int time)
+void	algo_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 {
 	unsigned int	median[2];
 	unsigned int	ct[2];
 
-	median[0] = get_pivot(stk_a);
-	median[1] = get_pivot(stk_b);
-	ct[0] = 0;
-	ct[1] = 0;
-	while (ct[0] <= median[0] && ct[1] <= median[1])
+	median[0] = get_pivot(*stk_a);
+	median[1] = get_pivot(*stk_b);
+	ct[0] = get_stack_size(*stk_a) + 1;
+	ct[1] = get_stack_size(*stk_b) + 1;
+	while (--ct[0] > 0 && --ct[1] > 0)
 	{
-		if (stk_a->sorted_index > median[0])
+		if ((*stk_a)->sorted_index < median[0])
 		{
-			push_b(&stk_a, &stk_b, inst);
-			rotate_b(&stk_b, inst);
+			push_b(stk_a, stk_b, inst);
+			rotate_b(stk_b, inst);
 		}
 		else
-			rotate_a(&stk_a, inst);
-		if (stk_b->sorted_index > median[1])
+			rotate_a(stk_a, inst);
+		if ((*stk_b)->sorted_index > median[1])
 		{
-			push_a(&stk_a, &stk_b, inst);
-			rotate_a(&stk_b, inst);
+			push_a(stk_a, stk_b, inst);
+			rotate_a(stk_a, inst);
 		}
 		else
-			rotate_b(&stk_a, inst);
-		ct[0]++;
-		ct[1]++;
+			rotate_b(stk_b, inst);
 	}
-	if (time < 1)
-		algo_rec(stk_a, stk_b, inst, time + 1);
+	update_indexes(*stk_a);
+	update_indexes(*stk_b);
+	/*if (time < 1)
+		algo_rec(stk_a, stk_b, inst, time + 1);*/
 }
 
-void	algo2_rec(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
+void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 {
 	t_stack			*cur;
 	unsigned int	median;
 	unsigned int	ct;
 
-	while (!is_sorted(stk_a))
+	while (!is_sorted(*stk_a, 1))
 	{
-		cur = stk_a;
+		cur = *stk_a;
 		ct = 0;
-		median = get_pivot(stk_a);
+		median = get_pivot(*stk_a);
+		//print_stack(*stk_a, "-> ");
 		while (ct < median * 2)
 		{
-			if (stk_a->sorted_index > median)
-				push_b(&stk_a, &stk_b, inst);
+			if ((*stk_a)->sorted_index < median)
+				push_b(stk_a, stk_b, inst);
 			else
-				rotate_a(&stk_a, inst);
+				rotate_a(stk_a, inst);
 			ct++;
 		}
+		update_indexes(*stk_a);
+		update_indexes(*stk_b);
 	}
+	/*t_stack	*next;
+	while (stk_b != NULL)
+	{
+		next = get_neighbour(,stk_b);
+	}*/
 }
 
 void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
@@ -163,19 +171,21 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 	median = get_pivot(stk_a);
 	while (ct < median * 2)
 	{
-		if (stk_a->sorted_index > median)
+		if (stk_a->sorted_index < median)
 			push_b(&stk_a, &stk_b, inst);
 		else
 			rotate_a(&stk_a, inst);
 		ct++;
 	}
-	//algo_rec(stk_a, stk_b, inst, 1);
-	algo2_rec(stk_a, stk_b, inst);
-	printf("sizze = %d \n", get_stack_size(stk_b));
-	while (stk_b != NULL)
+	update_indexes(stk_a);
+	update_indexes(stk_b);
+	//printf("%d, %d\n", get_stack_size(stk_a), get_stack_size(stk_b));
+	//algo_rec(&stk_a, &stk_b, inst);
+	algo2_rec(&stk_a, &stk_b, inst);
+	/*while (stk_b != NULL)
 	{
 		push_a(&stk_a, &stk_b, inst);
-	}
+	}*/
 }
 
 void	push_swap(t_stack *stk_a)
@@ -189,7 +199,7 @@ void	push_swap(t_stack *stk_a)
 	instructions->next = NULL;
 	instructions->str = "";
 	stk_b = NULL;
-	init_stack(stk_a);
+	update_indexes(stk_a);
 	//print_stack(stk_a, "-> ");
 	//print_stack(stk_b, "-> ");
 	/*pre_optimization(stk_a, stk_b);
@@ -213,7 +223,7 @@ int	main(int argc, char **argv)
 		parse_str(argv[1], &stk);
 	else
 		parse_strs(argc - 1, argv + 1, &stk);
-	if (is_sorted(stk))
+	if (is_sorted(stk, 0))
 		return (0);
 	push_swap(stk);
 	//system("leaks push_swap");
