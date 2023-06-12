@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/10 22:33:50 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:30:52 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	update_indexes(t_stack *stk)
 				nb++;
 			stk = stk->next;
 		}
-		cur->sorted_index = nb;
+		cur->s_ind = nb;
 		cur = cur->next;
 	}
 }
@@ -98,6 +98,7 @@ t_inst	*get_inst(t_inst *inst, unsigned int nb)
 	return (inst);
 }
 
+
 void	algo_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 {
 	unsigned int	median[2];
@@ -109,14 +110,14 @@ void	algo_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 	ct[1] = get_stack_size(*stk_b) + 1;
 	while (--ct[0] > 0 && --ct[1] > 0)
 	{
-		if ((*stk_a)->sorted_index < median[0])
+		if ((*stk_a)->s_ind < median[0])
 		{
 			push_b(stk_a, stk_b, inst);
 			rotate_b(stk_b, inst);
 		}
 		else
 			rotate_a(stk_a, inst);
-		if ((*stk_b)->sorted_index > median[1])
+		if ((*stk_b)->s_ind > median[1])
 		{
 			push_a(stk_a, stk_b, inst);
 			rotate_a(stk_a, inst);
@@ -126,8 +127,6 @@ void	algo_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 	}
 	update_indexes(*stk_a);
 	update_indexes(*stk_b);
-	/*if (time < 1)
-		algo_rec(stk_a, stk_b, inst, time + 1);*/
 }
 
 void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
@@ -144,7 +143,7 @@ void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 		//print_stack(*stk_a, "-> ");
 		while (ct < median * 2)
 		{
-			if ((*stk_a)->sorted_index < median)
+			if ((*stk_a)->s_ind < median)
 				push_b(stk_a, stk_b, inst);
 			else
 				rotate_a(stk_a, inst);
@@ -160,6 +159,46 @@ void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 	}*/
 }
 
+unsigned int	get_distance(t_stack *s, unsigned int s_ind)
+{
+	int	ct;
+
+	if (s_ind >= get_stack_size(s))
+		return (0);
+	ct = 0;
+	while (s != NULL && s->s_ind != s_ind)
+	{
+		s = s->next;
+		ct++;
+	}
+	return (ct);
+}
+
+void	push_next(t_stack **s_a, t_stack **s_b, t_inst *inst)
+{
+	int	pos_val_min;
+	//int	pos_val_max; Est ce utile ? dans lesens ou je devrais ajouter dans la pile a un des deux el ou uniquement max, ce qui serait plus simple ptet ?
+
+	pos_val_min = get_distance(*s_b, 0);
+	//pos_val_max = get_distance(*s_b, get_stack_size(*s_b) - 1);
+	/*if (dist_min < dist_max)
+		reverse_rotate_b(s_b, inst);
+	else
+		rotate_b(s_b, inst);*/
+	push_a(s_a, s_b, inst);
+}
+
+void	algo_insert(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
+{
+	int	ct;
+
+	ct = 0;
+	while (*stk_b != NULL)
+	{
+		push_next(stk_a, stk_b, inst);
+	}
+}
+
 void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 {
 	t_stack			*cur;
@@ -171,7 +210,7 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 	median = get_pivot(stk_a);
 	while (ct < median * 2)
 	{
-		if (stk_a->sorted_index < median)
+		if (stk_a->s_ind < median)
 			push_b(&stk_a, &stk_b, inst);
 		else
 			rotate_a(&stk_a, inst);
@@ -181,7 +220,8 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 	update_indexes(stk_b);
 	//printf("%d, %d\n", get_stack_size(stk_a), get_stack_size(stk_b));
 	//algo_rec(&stk_a, &stk_b, inst);
-	algo2_rec(&stk_a, &stk_b, inst);
+	//algo2_rec(&stk_a, &stk_b, inst);
+	algo_insert(&stk_a, &stk_b, inst);
 	/*while (stk_b != NULL)
 	{
 		push_a(&stk_a, &stk_b, inst);
