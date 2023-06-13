@@ -6,24 +6,24 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:23:11 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/01 17:27:57 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/13 12:25:57 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap_val(t_stack *stk, t_inst *inst, t_stack *el, t_stack *el2)
+/*void	swap_val(t_stack *stk, t_inst *inst, t_stack *el, t_stack *el2)
 {
 	int				tmp;
 	unsigned int	tmp2;
 
 	pre_traduction(stk, inst, el, el2);
 	tmp = el->nb;
-	tmp2 = el->sorted_index;
+	tmp2 = el->s_ind;
 	el->nb = el2->nb;
 	el2->nb = tmp;
-	el->sorted_index = el2->sorted_index;
-	el2->sorted_index = tmp2;
+	el->s_ind = el2->s_ind;
+	el2->s_ind = tmp2;
 }
 
 void	swap_pivot(t_stack *stk, unsigned int piv, t_inst *inst)
@@ -54,17 +54,17 @@ void	swap_part_stk(t_stack *stk_a, unsigned int piv, t_inst *inst)
 	ct = 0;
 	while (ct < piv)
 	{
-		if (cur->sorted_index > piv)
+		if (cur->s_ind > piv)
 		{
 			swapped = get_el(stk_a, piv);
-			while (swapped != NULL && swapped->sorted_index >= piv)
+			while (swapped != NULL && swapped->s_ind >= piv)
 				swapped = swapped->next;
 			swap_val(stk_a, inst, cur, swapped);
 		}
 		cur = cur->next;
 		ct++;
 	}
-}
+}*/
 
 /**
  * 

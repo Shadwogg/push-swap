@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/05/29 14:57:44 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:16:31 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_stack	*get_el(t_stack *stk, unsigned int numero)
 
 t_stack	*get_el_sorted(t_stack *stk, unsigned int numero)
 {
-	while (stk != NULL && stk->sorted_index != numero)
+	while (stk != NULL && stk->s_ind != numero)
 		stk = stk->next;
 	return (stk);
 }

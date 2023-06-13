@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/12 22:03:30 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:40:02 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,26 @@ void			quicksort(t_stack *a, t_inst *instructions);
 unsigned int	get_pivot(t_stack *arr);
 t_stack			*divide(t_stack *stk, unsigned int piv, t_inst *inst);
 
-void			pre_optimization(t_stack *stk_a, t_stack *stk_b);
+void			pre_optimization(t_stack *s_a, t_stack *s_b);
 
 void			pre_traduction(t_stack *stk, t_inst *inst,
 					t_stack *el, t_stack *el2);
 void			add_inst(t_inst	*inst, char *str, unsigned int time);
 t_stack			*get_el_sorted(t_stack *stk, unsigned int numero);
 
-void			swap_a(t_stack **stk, t_inst *inst);
-void			swap_b(t_stack **stk, t_inst *inst);
-void			push_a(t_stack **stk_a, t_stack **stk_b, t_inst *inst);
-void			push_b(t_stack **stk_a, t_stack **stk_b, t_inst *inst);
-void			rotate_a(t_stack **stk, t_inst *inst);
-void			rotate_b(t_stack **stk, t_inst *inst);
-void			reverse_rotate_a(t_stack **stk, t_inst *inst);
-void			reverse_rotate_b(t_stack **stk, t_inst *inst);
+void			swap_a(t_stack **stk, t_inst *inst, unsigned int time);
+void			swap_b(t_stack **stk, t_inst *inst, unsigned int time);
+void			push_a(t_stack **s_a, t_stack **s_b,
+					t_inst *inst, unsigned int time);
+void			push_b(t_stack **s_a, t_stack **s_b,
+					t_inst *inst, unsigned int time);
+void			rotate_a(t_stack **stk, t_inst *inst, unsigned int time);
+void			rotate_b(t_stack **stk, t_inst *inst, unsigned int time);
+void			reverse_rotate_a(t_stack **s, t_inst *inst, unsigned int time);
+void			reverse_rotate_b(t_stack **s, t_inst *inst, unsigned int time);
 
+/***********************************OPTIMIZE***********************************/
+
+void			optimize(t_inst *inst);
 
 #endif

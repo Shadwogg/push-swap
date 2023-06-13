@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/12 22:30:52 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/13 14:39:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ unsigned int	count_same_inst(t_inst *inst)
 
 void	opti_inst(t_inst *instructions)
 {
-	//t_inst			*tmp;
 	t_inst			*inst;
 	unsigned int	ct;
 
@@ -108,22 +107,25 @@ void	algo_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 	median[1] = get_pivot(*stk_b);
 	ct[0] = get_stack_size(*stk_a) + 1;
 	ct[1] = get_stack_size(*stk_b) + 1;
-	while (--ct[0] > 0 && --ct[1] > 0)
+	while (--ct[0] > 0)
 	{
 		if ((*stk_a)->s_ind < median[0])
 		{
-			push_b(stk_a, stk_b, inst);
-			rotate_b(stk_b, inst);
+			push_b(stk_a, stk_b, inst, 1);
+			rotate_b(stk_b, inst, 1);
 		}
 		else
-			rotate_a(stk_a, inst);
+			rotate_a(stk_a, inst, 1);
+	}
+	while (--ct[1] > 0)
+	{
 		if ((*stk_b)->s_ind > median[1])
 		{
-			push_a(stk_a, stk_b, inst);
-			rotate_a(stk_a, inst);
+			push_a(stk_a, stk_b, inst, 1);
+			rotate_a(stk_a, inst, 1);
 		}
 		else
-			rotate_b(stk_b, inst);
+			rotate_b(stk_b, inst, 1);
 	}
 	update_indexes(*stk_a);
 	update_indexes(*stk_b);
@@ -144,9 +146,9 @@ void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 		while (ct < median * 2)
 		{
 			if ((*stk_a)->s_ind < median)
-				push_b(stk_a, stk_b, inst);
+				push_b(stk_a, stk_b, inst, 1);
 			else
-				rotate_a(stk_a, inst);
+				rotate_a(stk_a, inst, 1);
 			ct++;
 		}
 		update_indexes(*stk_a);
@@ -173,29 +175,33 @@ unsigned int	get_distance(t_stack *s, unsigned int s_ind)
 	}
 	return (ct);
 }
-
-void	push_next(t_stack **s_a, t_stack **s_b, t_inst *inst)
+/*void	push_next_a(t_stack **s_a, t_stack **s_b, t_inst *inst)
 {
-	int	pos_val_min;
-	//int	pos_val_max; Est ce utile ? dans lesens ou je devrais ajouter dans la pile a un des deux el ou uniquement max, ce qui serait plus simple ptet ?
+}*/
 
-	pos_val_min = get_distance(*s_b, 0);
-	//pos_val_max = get_distance(*s_b, get_stack_size(*s_b) - 1);
-	/*if (dist_min < dist_max)
-		reverse_rotate_b(s_b, inst);
+void	push_next_b(t_stack **s_a, t_stack **s_b, t_inst *inst)
+{
+	unsigned int	pos_val_max;
+	unsigned int	size;
+
+	size = get_stack_size(*s_b);
+	pos_val_max = get_distance(*s_b, size - 1);
+	if (pos_val_max <= size / 2 + size % 2)
+		rotate_b(s_b, inst, pos_val_max);
 	else
-		rotate_b(s_b, inst);*/
-	push_a(s_a, s_b, inst);
+		reverse_rotate_b(s_b, inst, size - pos_val_max);
+	push_a(s_a, s_b, inst, 1);
 }
 
-void	algo_insert(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
+void	algo_insert(t_stack **s_a, t_stack **s_b, t_inst *inst)
 {
 	int	ct;
 
 	ct = 0;
-	while (*stk_b != NULL)
+	while (!is_sorted(*s_a, 0) && *s_b != NULL)
 	{
-		push_next(stk_a, stk_b, inst);
+		push_next_b(s_a, s_b, inst);
+		//push_next_a(s_a, s_b, inst);
 	}
 }
 
@@ -211,21 +217,17 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 	while (ct < median * 2)
 	{
 		if (stk_a->s_ind < median)
-			push_b(&stk_a, &stk_b, inst);
+			push_b(&stk_a, &stk_b, inst, 1);
 		else
-			rotate_a(&stk_a, inst);
+			rotate_a(&stk_a, inst, 1);
 		ct++;
 	}
 	update_indexes(stk_a);
 	update_indexes(stk_b);
 	//printf("%d, %d\n", get_stack_size(stk_a), get_stack_size(stk_b));
-	//algo_rec(&stk_a, &stk_b, inst);
+	algo_rec(&stk_a, &stk_b, inst);
 	//algo2_rec(&stk_a, &stk_b, inst);
-	algo_insert(&stk_a, &stk_b, inst);
-	/*while (stk_b != NULL)
-	{
-		push_a(&stk_a, &stk_b, inst);
-	}*/
+	//algo_insert(&stk_a, &stk_b, inst);
 }
 
 void	push_swap(t_stack *stk_a)
@@ -247,6 +249,7 @@ void	push_swap(t_stack *stk_a)
 	opti_inst(instructions);*/
 	//print_stack(stk_a, "\n");
 	mon_algo(stk_a, stk_b, instructions);
+	optimize(instructions);
 	read_inst(instructions);
 }
 
