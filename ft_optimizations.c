@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:36:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/13 14:54:27 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/14 17:34:57 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@ void	pre_optimization(t_stack *stk_a, t_stack *stk_b)
 {
 	(void) stk_a;
 	(void) stk_b;
+}
+
+char	*deduce(char *str)
+{
+	if (str[0] == 'r' && (str[1] == 'a' || str[1] == 'b'))
+		return ("rr");
+	if (str[0] == 's' && (str[1] == 'a' || str[1] == 'b'))
+		return ("ss");
+	if (str[0] == 'r' && str[1] == 'r' && (str[2] == 'a' || str[2] == 'b'))
+		return ("rrr");
+	return (NULL);
 }
 
 void	optimize(t_inst *inst)
@@ -30,12 +41,12 @@ void	optimize(t_inst *inst)
 			{
 				tofree = inst->next;
 				inst->next = inst->next->next;
-				inst->str[1] = inst->str[0];
+				inst->str = deduce(inst->str);
 				free(tofree);
 			}
 		}
-		inst = inst->next;
 		if (inst == NULL)
 			break ;
+		inst = inst->next;
 	}
 }
