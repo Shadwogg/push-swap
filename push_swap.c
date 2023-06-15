@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/14 18:11:29 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:55:18 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,48 +161,67 @@ void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
 	}*/
 }
 
-unsigned int	get_distance(t_stack *s, unsigned int s_ind, int ignored)
+unsigned int	get_distance(t_stack *s, int nb)
 {
 	int	ct;
 
-	if (s_ind >= get_stack_size(s))
-		return (0);
 	ct = 0;
-	while (s != NULL && s->s_ind != s_ind)
+	while (s != NULL && (s->nb != nb))
 	{
-		if (s->nb >= ignored)
-			s = s->next;
 		s = s->next;
 		ct++;
 	}
 	return (ct);
 }
+
 void	push_next_a(t_stack **s_a, t_stack **s_b, t_inst *inst, int ignored)
 {
-	unsigned int	pos_val_max;
+	unsigned int	pos_max_min;
 	unsigned int	size;
 
 	size = get_stack_size(*s_a);
-	pos_val_max = get_distance(*s_a, size - 1, ignored);
-	if (pos_val_max <= size / 2 + size % 2)
-		rotate_a(s_a, inst, pos_val_max);
+	//printf("A\n	ignored = %d\n", ignored);
+	pos_max_min = get_distance(*s_a, get_prev_el(*s_a, get_el(*s_a, ignored))->nb);
+	//printf("	pos = %d\n", pos_max_min);
+	if (pos_max_min <= size / 2 + size % 2)
+		rotate_a(s_a, inst, pos_max_min);
 	else
-		reverse_rotate_a(s_a, inst, size - pos_val_max);
+		reverse_rotate_a(s_a, inst, size - pos_max_min);
 	push_b(s_a, s_b, inst, 1);
 }
 
-void	push_next_b(t_stack **s_a, t_stack **s_b, t_inst *inst, int ignored)
+void	push_next_b(t_stack **s_a, t_stack **s_b, t_inst *inst)
 {
 	unsigned int	pos_val_max;
 	unsigned int	size;
 
 	size = get_stack_size(*s_b);
-	pos_val_max = get_distance(*s_b, size - 1, ignored);
+	//printf("B\n	val = %d\n", get_el_sorted(*s_b, size - 1)->nb);
+	pos_val_max = get_distance(*s_b, get_el_sorted(*s_b, size - 1)->nb);
+	//printf("	pos = %d\n", pos_val_max);
 	if (pos_val_max <= size / 2 + size % 2)
 		rotate_b(s_b, inst, pos_val_max);
 	else
 		reverse_rotate_b(s_b, inst, size - pos_val_max);
 	push_a(s_a, s_b, inst, 1);
+}
+
+void	rotating_a(t_stack **a, t_inst *inst)
+{
+	unsigned int	top;
+	unsigned int	dist;
+
+	if (get_stack_size(*a) == 0 || get_stack_size(*a) == 1)
+		return ;
+	top = get_el_sorted(*a, get_stack_size(*a) - 1)->nb;
+	dist = get_distance(*a, top);
+	printf("top = %d\ndist = %d\n", top, dist);
+	//(void) inst;
+	if (dist >= get_stack_size(*a) / 2 + get_stack_size(*a) % 2)
+		reverse_rotate_a(a, inst, get_stack_size(*a) - dist);
+		//printf("TEST\n");
+	else
+		rotate_a(a, inst, dist);
 }
 
 // Push the max from b to a, and the max from a to b
@@ -212,16 +231,16 @@ void	algo_insert(t_stack **s_a, t_stack **s_b, t_inst *inst)
 	int	ignored;
 
 	ct = 0;
-	ignored = get_stack_size(s_a);
-	while (!is_sorted(*s_a, 0) && !is_sorted(*s_b, 1) && ct < 200)
+	ignored = get_el_sorted(*s_a, get_stack_size(*s_a) - 1)->nb;
+	while (!is_sorted(*s_a, 0) && !is_sorted(*s_b, 1) && ct < 5)
 	{
-		push_next_b(s_a, s_b, inst, ct);
-		//strat == ignored
+		push_next_b(s_a, s_b, inst);
 		update_indexes(*s_a);
 		update_indexes(*s_b);
-		push_next_a(s_a, s_b, inst, ct);
+		push_next_a(s_a, s_b, inst, ignored);
 		update_indexes(*s_a);
 		update_indexes(*s_b);
+		rotating_a(s_a, inst);
 		ct++;
 	}
 }
@@ -237,7 +256,7 @@ void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
 	median = get_pivot(stk_a);
 	while (ct < median * 2)
 	{
-		if (stk_a->s_ind < median)
+		if (stk_a->s_ind >= median)
 			push_b(&stk_a, &stk_b, inst, 1);
 		else
 			rotate_a(&stk_a, inst, 1);
@@ -275,7 +294,7 @@ void	push_swap(t_stack *stk_a)
 	instructions = instructions->next;
 	free(tmp);
 	//optimize(instructions);
-	read_inst(instructions);
+	//read_inst(instructions);
 }
 
 int	main(int argc, char **argv)

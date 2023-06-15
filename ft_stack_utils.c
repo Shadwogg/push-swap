@@ -45,27 +45,3 @@ int	is_sorted(t_stack *stk, char order)
 	}
 	return (1);
 }
-
-
-t_stack	*pop_first(t_stack *stk)
-{
-	t_stack	*tmp;
-
-	tmp = stk;
-	*stk = *stk->next;
-	tmp->next = NULL;
-	return (tmp);
-}
-
-t_stack	*pop_last(t_stack *stk)
-{
-	t_stack	*tmp;
-
-	if (stk == NULL)
-		return (NULL);
-	while (stk->next != NULL || stk->next->next != NULL)
-		stk = stk->next;
-	tmp = stk->next;
-	stk->next = NULL;
-	return (tmp);
-}

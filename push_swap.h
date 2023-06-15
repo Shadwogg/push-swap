@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/13 14:40:02 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:13:01 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,12 @@ void			reverse_rotate(t_stack **stk);
 void			rotate(t_stack **stk);
 void			swap(t_stack **stk);
 
-void			insert_first(t_stack *stk, t_stack *el);
-t_stack			*pop_first(t_stack *stk);
-t_stack			*pop_last(t_stack *stk);
-
 int				is_sorted(t_stack *stk, char order);
 
 unsigned int	get_stack_size(t_stack *stk);
 t_stack			*get_last(t_stack *stk);
 t_stack			*get_el(t_stack *stk, unsigned int numero);
+t_stack			*get_prev_el(t_stack *s, t_stack *el);
 void			update_index(t_stack *stk);
 
 void			free_stack(t_stack *stk);

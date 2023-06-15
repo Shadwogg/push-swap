@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/13 14:16:31 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/15 16:17:47 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,3 +87,13 @@ t_stack	*divide(t_stack *stk, unsigned int piv, t_inst *inst)
 		stk = stk->next;
 	}
 }*/
+
+t_stack	*get_prev_el(t_stack *s, t_stack *el)
+{
+	unsigned int	searching;
+
+	if (el->s_ind == 0)
+		return (NULL);
+	searching = el->s_ind - 1;
+	return (get_el_sorted(s, searching));
+}
