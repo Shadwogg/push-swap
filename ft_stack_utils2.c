@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/15 16:17:47 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/16 12:41:12 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,15 @@ t_stack	*get_last(t_stack *stk)
 	return (stk);
 }
 
-t_stack	*get_el(t_stack *stk, unsigned int numero)
+t_stack	*get_el(t_stack *stk, int numero)
 {
-	unsigned int	ct;
-
-	ct = 0;
-	while (ct < numero && stk != NULL)
+	while (stk != NULL)
 	{
+		if (stk->nb == numero)
+			return (stk);
 		stk = stk->next;
-		ct++;
 	}
-	return (stk);
+	return (NULL);
 }
 
 t_stack	*get_el_sorted(t_stack *stk, unsigned int numero)
@@ -54,44 +52,12 @@ t_stack	*get_el_sorted(t_stack *stk, unsigned int numero)
 	return (stk);
 }
 
-/**
- * Split the stack in two, at the piv position
- * Return the right half of the stack. 
-*/
-t_stack	*divide(t_stack *stk, unsigned int piv, t_inst *inst)
-{
-	unsigned int	ct;
-	t_stack			*cur;
-
-	(void) inst;
-	ct = 0;
-	while (ct < piv)
-	{
-		stk = stk->next;
-		ct++;
-	}
-	cur = stk->next;
-	stk->next = NULL;
-	//update_index(cur);
-	return (cur);
-}
-
-/*void	update_index(t_stack *stk)
-{
-	int	size;
-
-	size = get_stack_size(stk);
-	while (stk != NULL)
-	{
-		stk->sorted_index -= size + 1;
-		stk = stk->next;
-	}
-}*/
-
 t_stack	*get_prev_el(t_stack *s, t_stack *el)
 {
 	unsigned int	searching;
 
+	if (s == NULL || el == NULL)
+		print_error("ERREOR", "");
 	if (el->s_ind == 0)
 		return (NULL);
 	searching = el->s_ind - 1;

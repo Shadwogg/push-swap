@@ -45,3 +45,26 @@ int	is_sorted(t_stack *stk, char order)
 	}
 	return (1);
 }
+
+void	update_indexes(t_stack *stk)
+{
+	t_stack			*cur;
+	t_stack			*save;
+	unsigned int	nb;
+
+	cur = stk;
+	save = stk;
+	while (cur != NULL)
+	{
+		nb = 0;
+		stk = save;
+		while (stk != NULL)
+		{
+			if (cur->nb > stk->nb)
+				nb++;
+			stk = stk->next;
+		}
+		cur->s_ind = nb;
+		cur = cur->next;
+	}
+}

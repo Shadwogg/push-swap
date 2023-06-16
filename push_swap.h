@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/15 16:13:01 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:08:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ int				is_sorted(t_stack *stk, char order);
 
 unsigned int	get_stack_size(t_stack *stk);
 t_stack			*get_last(t_stack *stk);
-t_stack			*get_el(t_stack *stk, unsigned int numero);
+t_stack			*get_el(t_stack *stk, int numero);
+t_stack			*get_el_sorted(t_stack *stk, unsigned int numero);
 t_stack			*get_prev_el(t_stack *s, t_stack *el);
-void			update_index(t_stack *stk);
+void			update_indexes(t_stack *stk);
 
 void			free_stack(t_stack *stk);
 void			free_tab_str(char **arr, int size);
@@ -78,22 +79,24 @@ void			pre_optimization(t_stack *s_a, t_stack *s_b);
 
 void			pre_traduction(t_stack *stk, t_inst *inst,
 					t_stack *el, t_stack *el2);
-void			add_inst(t_inst	*inst, char *str, unsigned int time);
+void			add_inst(t_inst	**inst, char *str, unsigned int time);
 t_stack			*get_el_sorted(t_stack *stk, unsigned int numero);
 
-void			swap_a(t_stack **stk, t_inst *inst, unsigned int time);
-void			swap_b(t_stack **stk, t_inst *inst, unsigned int time);
+void			swap_a(t_stack **stk, t_inst **inst, unsigned int time);
+void			swap_b(t_stack **stk, t_inst **inst, unsigned int time);
 void			push_a(t_stack **s_a, t_stack **s_b,
-					t_inst *inst, unsigned int time);
+					t_inst **inst, unsigned int time);
 void			push_b(t_stack **s_a, t_stack **s_b,
-					t_inst *inst, unsigned int time);
-void			rotate_a(t_stack **stk, t_inst *inst, unsigned int time);
-void			rotate_b(t_stack **stk, t_inst *inst, unsigned int time);
-void			reverse_rotate_a(t_stack **s, t_inst *inst, unsigned int time);
-void			reverse_rotate_b(t_stack **s, t_inst *inst, unsigned int time);
+					t_inst **inst, unsigned int time);
+void			rotate_a(t_stack **stk, t_inst **inst, unsigned int time);
+void			rotate_b(t_stack **stk, t_inst **inst, unsigned int time);
+void			reverse_rotate_a(t_stack **s, t_inst **inst, unsigned int time);
+void			reverse_rotate_b(t_stack **s, t_inst **inst, unsigned int time);
 
 /***********************************OPTIMIZE***********************************/
 
 void			optimize(t_inst *inst);
+
+void			read_inst(t_inst *inst);
 
 #endif

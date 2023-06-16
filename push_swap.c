@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/15 16:55:18 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:14:12 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,38 +34,6 @@
   *  
 */
 
-void	update_indexes(t_stack *stk)
-{
-	t_stack			*cur;
-	t_stack			*save;
-	unsigned int	nb;
-
-	cur = stk;
-	save = stk;
-	while (cur != NULL)
-	{
-		nb = 0;
-		stk = save;
-		while (stk != NULL)
-		{
-			if (cur->nb > stk->nb)
-				nb++;
-			stk = stk->next;
-		}
-		cur->s_ind = nb;
-		cur = cur->next;
-	}
-}
-
-void	read_inst(t_inst *inst)
-{
-	while (inst != NULL)
-	{
-		ft_printf("%s\n", inst->str);
-		inst = inst->next;
-	}
-}
-
 unsigned int	count_same_inst(t_inst *inst)
 {
 	unsigned int	ct;
@@ -90,77 +58,6 @@ void	opti_inst(t_inst *instructions)
 	}
 }
 
-t_inst	*get_inst(t_inst *inst, unsigned int nb)
-{
-	while (inst != NULL && --nb > 0)
-		inst = inst->next;
-	return (inst);
-}
-
-
-void	algo_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
-{
-	unsigned int	median[2];
-	unsigned int	ct[2];
-
-	median[0] = get_pivot(*stk_a);
-	median[1] = get_pivot(*stk_b);
-	ct[0] = get_stack_size(*stk_a) + 1;
-	ct[1] = get_stack_size(*stk_b) + 1;
-	while (--ct[0] > 0)
-	{
-		if ((*stk_a)->s_ind < median[0])
-		{
-			push_b(stk_a, stk_b, inst, 1);
-			rotate_b(stk_b, inst, 1);
-		}
-		else
-			rotate_a(stk_a, inst, 1);
-	}
-	while (--ct[1] > 0)
-	{
-		if ((*stk_b)->s_ind > median[1])
-		{
-			push_a(stk_a, stk_b, inst, 1);
-			rotate_a(stk_a, inst, 1);
-		}
-		else
-			rotate_b(stk_b, inst, 1);
-	}
-	update_indexes(*stk_a);
-	update_indexes(*stk_b);
-}
-
-void	algo2_rec(t_stack **stk_a, t_stack **stk_b, t_inst *inst)
-{
-	t_stack			*cur;
-	unsigned int	median;
-	unsigned int	ct;
-
-	while (!is_sorted(*stk_a, 1))
-	{
-		cur = *stk_a;
-		ct = 0;
-		median = get_pivot(*stk_a);
-		//print_stack(*stk_a, "-> ");
-		while (ct < median * 2)
-		{
-			if ((*stk_a)->s_ind < median)
-				push_b(stk_a, stk_b, inst, 1);
-			else
-				rotate_a(stk_a, inst, 1);
-			ct++;
-		}
-		update_indexes(*stk_a);
-		update_indexes(*stk_b);
-	}
-	/*t_stack	*next;
-	while (stk_b != NULL)
-	{
-		next = get_neighbour(,stk_b);
-	}*/
-}
-
 unsigned int	get_distance(t_stack *s, int nb)
 {
 	int	ct;
@@ -174,127 +71,37 @@ unsigned int	get_distance(t_stack *s, int nb)
 	return (ct);
 }
 
-void	push_next_a(t_stack **s_a, t_stack **s_b, t_inst *inst, int ignored)
+void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
 {
-	unsigned int	pos_max_min;
-	unsigned int	size;
-
-	size = get_stack_size(*s_a);
-	//printf("A\n	ignored = %d\n", ignored);
-	pos_max_min = get_distance(*s_a, get_prev_el(*s_a, get_el(*s_a, ignored))->nb);
-	//printf("	pos = %d\n", pos_max_min);
-	if (pos_max_min <= size / 2 + size % 2)
-		rotate_a(s_a, inst, pos_max_min);
-	else
-		reverse_rotate_a(s_a, inst, size - pos_max_min);
-	push_b(s_a, s_b, inst, 1);
-}
-
-void	push_next_b(t_stack **s_a, t_stack **s_b, t_inst *inst)
-{
-	unsigned int	pos_val_max;
-	unsigned int	size;
-
-	size = get_stack_size(*s_b);
-	//printf("B\n	val = %d\n", get_el_sorted(*s_b, size - 1)->nb);
-	pos_val_max = get_distance(*s_b, get_el_sorted(*s_b, size - 1)->nb);
-	//printf("	pos = %d\n", pos_val_max);
-	if (pos_val_max <= size / 2 + size % 2)
-		rotate_b(s_b, inst, pos_val_max);
-	else
-		reverse_rotate_b(s_b, inst, size - pos_val_max);
-	push_a(s_a, s_b, inst, 1);
-}
-
-void	rotating_a(t_stack **a, t_inst *inst)
-{
-	unsigned int	top;
-	unsigned int	dist;
-
-	if (get_stack_size(*a) == 0 || get_stack_size(*a) == 1)
-		return ;
-	top = get_el_sorted(*a, get_stack_size(*a) - 1)->nb;
-	dist = get_distance(*a, top);
-	printf("top = %d\ndist = %d\n", top, dist);
-	//(void) inst;
-	if (dist >= get_stack_size(*a) / 2 + get_stack_size(*a) % 2)
-		reverse_rotate_a(a, inst, get_stack_size(*a) - dist);
-		//printf("TEST\n");
-	else
-		rotate_a(a, inst, dist);
-}
-
-// Push the max from b to a, and the max from a to b
-void	algo_insert(t_stack **s_a, t_stack **s_b, t_inst *inst)
-{
-	int	ct;
-	int	ignored;
-
-	ct = 0;
-	ignored = get_el_sorted(*s_a, get_stack_size(*s_a) - 1)->nb;
-	while (!is_sorted(*s_a, 0) && !is_sorted(*s_b, 1) && ct < 5)
+	while (get_stack_size(s_a) > 2)
 	{
-		push_next_b(s_a, s_b, inst);
-		update_indexes(*s_a);
-		update_indexes(*s_b);
-		push_next_a(s_a, s_b, inst, ignored);
-		update_indexes(*s_a);
-		update_indexes(*s_b);
-		rotating_a(s_a, inst);
-		ct++;
-	}
-}
-
-void	mon_algo(t_stack *stk_a, t_stack *stk_b, t_inst *inst)
-{
-	t_stack			*cur;
-	unsigned int	median;
-	unsigned int	ct;
-
-	cur = stk_a;
-	ct = 0;
-	median = get_pivot(stk_a);
-	while (ct < median * 2)
-	{
-		if (stk_a->s_ind >= median)
-			push_b(&stk_a, &stk_b, inst, 1);
+		printf("TEST\n");
+		if (s_a->s_ind > 0 && s_a->s_ind < get_stack_size(s_a) - 1)
+			push_b(&s_a, &s_b, inst, 1);
 		else
-			rotate_a(&stk_a, inst, 1);
-		ct++;
+			rotate_a(&s_a, inst, 1);
 	}
-	update_indexes(stk_a);
-	update_indexes(stk_b);
-	//printf("%d, %d\n", get_stack_size(stk_a), get_stack_size(stk_b));
-	//algo_rec(&stk_a, &stk_b, inst);
-	//algo2_rec(&stk_a, &stk_b, inst);
-	algo_insert(&stk_a, &stk_b, inst);
+}
+
+void	new_algo(t_stack *s_a, t_stack *s_b, t_inst **inst)
+{
+	push_all(s_a, s_b, inst);
 }
 
 void	push_swap(t_stack *stk_a)
 {
 	t_stack	*stk_b;
 	t_inst	*instructions;
-	t_inst	*tmp;
 
-	instructions = malloc(sizeof(t_inst));
-	if (instructions == NULL)
-		print_error("", "MALLOC ERROR");
-	instructions->next = NULL;
-	instructions->str = "";
+	instructions = NULL;
 	stk_b = NULL;
 	update_indexes(stk_a);
 	//print_stack(stk_a, "-> ");
 	//print_stack(stk_b, "-> ");
-	/*pre_optimization(stk_a, stk_b);
-	quicksort(stk_a, instructions);
-	opti_inst(instructions);*/
-	//print_stack(stk_a, "\n");
-	mon_algo(stk_a, stk_b, instructions);
-	tmp = instructions;
-	instructions = instructions->next;
-	free(tmp);
+	//mon_algo(stk_a, stk_b, instructions);
+	new_algo(stk_a, stk_b, &instructions);
 	//optimize(instructions);
-	//read_inst(instructions);
+	read_inst(instructions);
 }
 
 int	main(int argc, char **argv)

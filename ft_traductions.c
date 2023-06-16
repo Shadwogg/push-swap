@@ -6,13 +6,13 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 00:57:46 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/13 12:28:57 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:05:20 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	swap_a(t_stack **s, t_inst *inst, unsigned int time)
+void	swap_a(t_stack **s, t_inst **inst, unsigned int time)
 {
 	if (get_stack_size(*s) < 2 || time == 0)
 		return ;
@@ -21,7 +21,7 @@ void	swap_a(t_stack **s, t_inst *inst, unsigned int time)
 		swap(s);
 }
 
-void	swap_b(t_stack **s, t_inst *inst, unsigned int time)
+void	swap_b(t_stack **s, t_inst **inst, unsigned int time)
 {
 	if (get_stack_size(*s) < 2 || time == 0)
 		return ;
@@ -30,7 +30,7 @@ void	swap_b(t_stack **s, t_inst *inst, unsigned int time)
 		swap(s);
 }
 
-void	push_a(t_stack **s_a, t_stack **s_b, t_inst *inst, unsigned int time)
+void	push_a(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int time)
 {
 	if (s_b == NULL || *s_b == NULL || time == 0)
 		return ;
@@ -39,7 +39,7 @@ void	push_a(t_stack **s_a, t_stack **s_b, t_inst *inst, unsigned int time)
 		push(s_b, s_a);
 }
 
-void	push_b(t_stack **s_a, t_stack **s_b, t_inst *inst, unsigned int time)
+void	push_b(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int time)
 {
 	if (s_a == NULL || *s_a == NULL || time == 0)
 		return ;
@@ -48,7 +48,7 @@ void	push_b(t_stack **s_a, t_stack **s_b, t_inst *inst, unsigned int time)
 		push(s_a, s_b);
 }
 
-void	rotate_a(t_stack **s, t_inst *inst, unsigned int time)
+void	rotate_a(t_stack **s, t_inst **inst, unsigned int time)
 {
 	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
 		return ;
@@ -57,7 +57,7 @@ void	rotate_a(t_stack **s, t_inst *inst, unsigned int time)
 		rotate(s);
 }
 
-void	rotate_b(t_stack **s, t_inst *inst, unsigned int time)
+void	rotate_b(t_stack **s, t_inst **inst, unsigned int time)
 {
 	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
 		return ;
@@ -66,7 +66,7 @@ void	rotate_b(t_stack **s, t_inst *inst, unsigned int time)
 		rotate(s);
 }
 
-void	reverse_rotate_a(t_stack **s, t_inst *inst, unsigned int time)
+void	reverse_rotate_a(t_stack **s, t_inst **inst, unsigned int time)
 {
 	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
 		return ;
@@ -74,7 +74,7 @@ void	reverse_rotate_a(t_stack **s, t_inst *inst, unsigned int time)
 	while (time-- > 0)
 		reverse_rotate(s);
 }
-void	reverse_rotate_b(t_stack **s, t_inst *inst, unsigned int time)
+void	reverse_rotate_b(t_stack **s, t_inst **inst, unsigned int time)
 {
 	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
 		return ;
