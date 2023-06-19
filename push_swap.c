@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/19 16:22:38 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/19 22:40:42 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	push_swap(t_stack *stk_a)
 	//mon_algo(stk_a, stk_b, instructions);
 	//new_algo(stk_a, stk_b, &instructions);
 	radix_sort(&stk_a, &stk_b, &instructions, 0);
-	//optimize(instructions);
+	optimize(instructions);
 	read_inst(instructions);
 }
 
@@ -121,5 +121,7 @@ int	main(int argc, char **argv)
 	if (is_sorted(stk, 0))
 		return (0);
 	push_swap(stk);
+	//unsigned int test = 1 << 8;
+	//printf("val = %u\n", test & 2505);
 	//system("leaks push_swap");
 }

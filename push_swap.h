@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/19 13:21:04 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/19 19:18:01 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int				is_not_number(char *nb);
 int				is_not_int(char *nb);
 int				in_stack(int nb, t_stack *stk);
 
-/************************************ALGO*************************************/
+/************************************ALGO**************************************/
 
-void	radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
+void			radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
 
 /************************************MAIN*************************************/
 

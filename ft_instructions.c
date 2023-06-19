@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:25:51 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/16 13:17:52 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/19 20:46:11 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	add_inst(t_inst	**inst, char *str, unsigned int time)
 
 	cur = *inst;
 	time++;
-	while (*inst != NULL && (*inst)->next != NULL)
-		*inst = (*inst)->next;
+	while (cur != NULL && cur->next != NULL)
+		cur = cur->next;
 	while (--time > 0)
 	{
 		if (*inst == NULL)
@@ -31,13 +31,12 @@ void	add_inst(t_inst	**inst, char *str, unsigned int time)
 			(*inst)->str = str;
 			continue ;
 		}
-		printf("TESTTSTSTSTTSS\n");
-		(*inst)->next = malloc(sizeof(t_inst));
-		if ((*inst)->next == NULL)
+		cur->next = malloc(sizeof(t_inst));
+		if (cur->next == NULL)
 			print_error("", "MALLOC ERROR");
-		(*inst)->next->next = NULL;
-		(*inst)->next->str = str;
-		*inst = (*inst)->next;
+		cur->next->next = NULL;
+		cur->next->str = str;
+		cur = cur->next;
 	}
 }
 
