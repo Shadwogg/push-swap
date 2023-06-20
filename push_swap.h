@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/19 19:18:01 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:51:39 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int				in_stack(int nb, t_stack *stk);
 /************************************ALGO**************************************/
 
 void			radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
+void			basic_radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
 
 /************************************MAIN*************************************/
 

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/19 22:40:42 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/20 13:51:22 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ void	push_swap(t_stack *stk_a)
 	//print_stack(stk_b, "-> ");
 	//mon_algo(stk_a, stk_b, instructions);
 	//new_algo(stk_a, stk_b, &instructions);
-	radix_sort(&stk_a, &stk_b, &instructions, 0);
-	optimize(instructions);
+	basic_radix_sort(&stk_a, &stk_b, &instructions, 0);
+	//optimize(instructions);
 	read_inst(instructions);
 }
 
