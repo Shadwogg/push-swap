@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:25:51 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/19 20:46:11 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:06:35 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	add_inst(t_inst	**inst, char *str, unsigned int time)
 				print_error("", "MALLOC ERROR");
 			(*inst)->next = NULL;
 			(*inst)->str = str;
+			cur = (*inst);
 			continue ;
 		}
 		cur->next = malloc(sizeof(t_inst));

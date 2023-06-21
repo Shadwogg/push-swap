@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/20 13:51:22 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/21 19:12:46 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
 {
 	while (get_stack_size(s_a) > 2)
 	{
-		printf("TEST\n");
 		if (s_a->s_ind > 0 && s_a->s_ind < get_stack_size(s_a) - 1)
 			push_b(&s_a, &s_b, inst, 1);
 		else
@@ -83,9 +82,20 @@ void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
 	}
 }
 
-void	new_algo(t_stack *s_a, t_stack *s_b, t_inst **inst)
+unsigned int	get_start(t_stack *s)
 {
-	push_all(s_a, s_b, inst);
+	unsigned int	size;
+	unsigned int	res;
+
+	size = get_stack_size(s);
+	res = 0;
+	while (size > 0)
+	{
+		res++;
+		size = size >> 1;
+	}
+	//printf("res %d\n", res);
+	return (res);
 }
 
 void	push_swap(t_stack *stk_a)
@@ -100,7 +110,9 @@ void	push_swap(t_stack *stk_a)
 	//print_stack(stk_b, "-> ");
 	//mon_algo(stk_a, stk_b, instructions);
 	//new_algo(stk_a, stk_b, &instructions);
-	basic_radix_sort(&stk_a, &stk_b, &instructions, 0);
+	//push_b(&stk_a, &stk_b, &instructions, get_stack_size(stk_a));
+	//basic_radix_sort(&stk_a, &stk_b, &instructions, get_start(stk_a));
+	radix_sort(&stk_a, &stk_b, &instructions, get_start(stk_a));
 	//optimize(instructions);
 	read_inst(instructions);
 }

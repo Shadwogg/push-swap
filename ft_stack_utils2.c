@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/16 12:41:12 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:10:46 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 unsigned int	get_stack_size(t_stack *stk)
 {
-	int	size;
+	unsigned int	size;
 
 	size = 0;
 	while (stk != NULL)

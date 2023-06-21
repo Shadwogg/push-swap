@@ -25,23 +25,23 @@ int	in_stack(int nb, t_stack *stk)
 
 int	is_sorted(t_stack *stk, char order)
 {
-	int	tmp;
+	int	prev;
 
 	if (stk == NULL)
 		return (1);
-	tmp = stk->nb;
+	prev = stk->nb;
 	while (stk->next != NULL)
 	{
 		stk = stk->next;
 		if (order == 0)
 		{
-			if (stk->nb < tmp)
+			if (prev > stk->nb)
 				return (0);
 		}
 		else
-			if (stk->nb > tmp)
+			if (prev < stk->nb)
 				return (0);
-		tmp = stk->nb;
+		prev = stk->nb;
 	}
 	return (1);
 }
