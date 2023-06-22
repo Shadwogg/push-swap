@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/20 13:51:39 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:51:09 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ typedef struct s_inst
 	struct s_inst	*next;
 }	t_inst;
 
+typedef struct s_state
+{
+	struct s_stack	*s_a;
+	struct s_stack	*s_b;
+	long int		cost;
+	struct s_inst	*inst;
+	struct s_state	*next;	
+}	t_state;
+
+
 /************************************PRINT*************************************/
 void			print_stack(t_stack *stk, char *str);
 int				print_error(char *nb, char *str);
@@ -57,6 +67,11 @@ void			update_indexes(t_stack *stk);
 void			free_stack(t_stack *stk);
 void			free_tab_str(char **arr, int size);
 
+void			init_inst(t_inst **inst, char *str);
+t_inst			*cp_inst(t_inst *inst);
+void			init_stack(t_stack **s, int nb, unsigned int s_ind);
+t_stack			*cp_stack(t_stack *s);
+
 /************************************PARSE*************************************/
 void			parse_str(char *arg, t_stack **stk);
 void			parse_strs(int size, char **argv, t_stack **stk);
@@ -70,8 +85,7 @@ int				in_stack(int nb, t_stack *stk);
 
 /************************************ALGO**************************************/
 
-void			radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
-void			basic_radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
+t_state			*mon_algo(t_state *current);
 
 /************************************MAIN*************************************/
 

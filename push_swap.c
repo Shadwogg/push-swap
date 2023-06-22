@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/21 19:12:46 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/22 18:55:47 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,21 +100,26 @@ unsigned int	get_start(t_stack *s)
 
 void	push_swap(t_stack *stk_a)
 {
-	t_stack	*stk_b;
-	t_inst	*instructions;
+	t_state	*init;
+	t_state	*soluce;
+	t_inst	*inst;
 
-	instructions = NULL;
-	stk_b = NULL;
+	inst = NULL;
 	update_indexes(stk_a);
 	//print_stack(stk_a, "-> ");
 	//print_stack(stk_b, "-> ");
-	//mon_algo(stk_a, stk_b, instructions);
-	//new_algo(stk_a, stk_b, &instructions);
-	//push_b(&stk_a, &stk_b, &instructions, get_stack_size(stk_a));
-	//basic_radix_sort(&stk_a, &stk_b, &instructions, get_start(stk_a));
-	radix_sort(&stk_a, &stk_b, &instructions, get_start(stk_a));
-	//optimize(instructions);
-	read_inst(instructions);
+	init = malloc(sizeof(t_state) * 1);
+	if (init == NULL)
+		print_error("", "MALLOC ERROR");
+	init->cost = -1;
+	init->inst = inst;
+	init->s_a = stk_a;
+	init->s_b = NULL;
+	soluce = mon_algo(init);
+	if (soluce == NULL)
+		print_error("", "No solution founded");
+	// optimize(soluce->inst);
+	// read_inst(*(soluce->inst));
 }
 
 int	main(int argc, char **argv)

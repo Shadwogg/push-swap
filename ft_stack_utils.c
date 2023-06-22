@@ -12,6 +12,40 @@
 
 #include "push_swap.h"
 
+void	init_stack(t_stack **s, int nb, unsigned int s_ind)
+{
+	(*s)->nb = nb;
+	(*s)->s_ind = s_ind;
+	(*s)->next = NULL;
+}
+
+t_stack	*cp_stack(t_stack *s)
+{
+	t_stack	*new;
+	t_stack	*next;
+	t_stack	*cur;
+
+	if (s == NULL)
+		return (NULL);
+	new = malloc(sizeof(t_stack));
+	if (new == NULL)
+		print_error("", "Malloc error");
+	init_stack(&new, s->nb, s->s_ind);
+	s = s->next;
+	cur = new;
+	while (s != NULL)
+	{
+		next = malloc(sizeof(t_stack));
+		if (new == NULL)
+			print_error("", "Malloc error");
+		init_stack(&next, s->nb, s->s_ind);
+		cur->next = next;
+		cur = cur->next;
+		s = s->next;
+	}
+	return (new);
+}
+
 int	in_stack(int nb, t_stack *stk)
 {
 	while (stk != NULL)
@@ -30,17 +64,22 @@ int	is_sorted(t_stack *stk, char order)
 	if (stk == NULL)
 		return (1);
 	prev = stk->nb;
+	if (order == 0)
+	{
+		while (stk->next != NULL)
+		{
+			stk = stk->next;
+			if (prev > stk->nb)
+				return (0);
+			prev = stk->nb;
+		}
+		return (1);
+	}
 	while (stk->next != NULL)
 	{
 		stk = stk->next;
-		if (order == 0)
-		{
-			if (prev > stk->nb)
-				return (0);
-		}
-		else
-			if (prev < stk->nb)
-				return (0);
+		if (prev < stk->nb)
+			return (0);
 		prev = stk->nb;
 	}
 	return (1);

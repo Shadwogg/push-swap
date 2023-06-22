@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/09 16:35:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/03 16:31:31 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/22 15:36:14 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ void	push(t_stack **stk_1, t_stack **stk_2)
 
 	tmp = *stk_1;
 	*stk_1 = (*stk_1)->next;
+	if (stk_2 == NULL)
+	{
+		stk_2 = &tmp;
+		(*stk_2)->next = NULL;
+		return ;
+	}
 	tmp->next = *stk_2;
 	*stk_2 = tmp;
 }
