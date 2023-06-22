@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:54:36 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/22 18:58:28 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:38:00 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,36 @@ void	play(t_state *s, char *action)
 	}
 }
 
+/**
+ * 
+ * Je fais comme si la stack b etait pose sur la stack a dans l'ordre inverse
+ * (simulate push_a(b, size(b)))
+*/
+long	calculate_sum(t_stack *a, t_stack *b)
+{
+	unsigned long	sum;
+	unsigned int	ct;
+	unsigned int	size_a;
+	unsigned int	size_b;
+
+	ct = 0;
+	sum = 0;
+	size_a = get_stack_size(a);
+	size_b = get_stack_size(b);
+	while (ct < size_b)
+	{
+		sum += 1;
+		ct++;
+	}
+	ct = 0;
+	while (ct < size_a)
+	{
+		sum += get_dist(a->s_ind);
+		ct++;
+	}
+	return (sum);
+}
+
 t_state	*new_state(t_state *cur, char *action)
 {
 	t_state	*new;
@@ -139,9 +169,9 @@ t_state	*new_state(t_state *cur, char *action)
 	new->s_a = tmp2;
 	tmp3 = cp_stack(cur->s_b);
 	new->s_b = tmp3;
-	new->cost = -1;
 	new->next = NULL;
 	play(new, action);
+	new->cost = calculate_sum(new->s_a, new->s_b);
 	printf("	%s\n", new->inst->str);
 	return (new);
 }
@@ -183,7 +213,7 @@ void	print_all(t_state *s)
 t_state	*mon_algo(t_state *cur)
 {
 	t_state			*s;
-	// t_state			*next;
+	t_state			*next;
 	char			**moves;
 	unsigned int	ct;
 
@@ -192,7 +222,6 @@ t_state	*mon_algo(t_state *cur)
 	moves = get_moves(cur);
 	s = NULL;
 	ct = 0;
-	//print_moves(moves);
 	add_next_states(cur, moves);
 	free(moves);
 	print_all(cur);

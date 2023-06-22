@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/22 18:51:09 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/22 19:32:12 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_state
 {
 	struct s_stack	*s_a;
 	struct s_stack	*s_b;
-	long int		cost;
+	unsigned long	cost;
 	struct s_inst	*inst;
 	struct s_state	*next;	
 }	t_state;
