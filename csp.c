@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:54:36 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/23 15:08:26 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:09:24 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,35 @@ unsigned int	get_pos(unsigned int nb, t_stack *s)
 	return (ct);
 }
 
-unsigned int	get_shortest_way(unsigned int *size, unsigned int pos_el,
+unsigned int	get_shortest_way(unsigned int size, unsigned int pos_el,
 	unsigned int sorted_pos, unsigned int offset)
 {
 	unsigned int	path;
+	unsigned int	p;
+	unsigned int	g;
 
 	path = 0;
+	p = sorted_pos;
+	g = pos_el;
+	if (pos_el < sorted_pos)
+	{
+		p = pos_el;
+		g = sorted_pos;
+	}
+	if (offset == 0)
+	{
+		// < || <=
+		if (g - p < size / 2)
+			path = g - p;
+		else
+			path = size - g + p;
+	}
+	else
+	{
+		path = ;
+	}
 	return (path);
-} 
+}
 
 /**
  * 
@@ -165,14 +186,13 @@ long	calculate_sum(t_stack *a, t_stack *b)
 	size_b = get_stack_size(b);
 	while (ct < size_b)
 	{
-		// sum += size_b - get_dist(s);
-		sum += get_pos(ct, b);
+		sum += get_shortest_way(size_b, ct, get_el(b, ct)->s_ind, 0);
 		ct++;
 	}
 	ct = 0;
 	while (ct < size_a)
 	{
-		sum += get_pos(a->s_ind) + size_b;
+		sum += get_shortest_way(size_a, ct, get_el(a, ct)->s_ind, 0);
 		ct++;
 	}
 	return (sum);
@@ -249,6 +269,25 @@ void	remove_state(t_state *s, t_state *removed)
 	s->next = next;
 	removed->next = NULL;
 	free_state(removed);
+}
+
+t_state	*get_best_state(t_state *s)
+{
+	unsigned int	min;
+	t_state			*min_state;
+
+	min = s->cost;
+	min_state = s;
+	while (s != NULL)
+	{
+		if (s->cost < min)
+		{
+			min = s->cost;
+			min_state = s;
+		}
+		s = s->next;
+	}
+	return (min_state);
 }
 
 t_state	*mon_algo(t_state *cur)

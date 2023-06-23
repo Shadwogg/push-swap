@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/23 15:14:20 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:49:52 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,16 @@ void	free_stack(t_stack *stk)
 
 void	free_inst(t_inst *inst)
 {
-	(void) inst;
+	t_inst	*prev;
 
-	printf("Same free_state\n");
+	prev = inst;
+	while (inst->next != NULL)
+	{
+		inst = inst->next;
+		free(prev);
+		prev = inst;
+	}
+	free(prev);
 }
 
 void	free_state(t_state *s)
