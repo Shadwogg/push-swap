@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/22 19:32:12 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:13:54 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_stack			*get_prev_el(t_stack *s, t_stack *el);
 void			update_indexes(t_stack *stk);
 
 void			free_stack(t_stack *stk);
+void			free_state(t_state *s);
+void			free_inst(t_inst *s);
 void			free_tab_str(char **arr, int size);
 
 void			init_inst(t_inst **inst, char *str);

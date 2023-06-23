@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:54:36 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/22 19:38:00 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/23 15:08:26 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,30 @@ void	play(t_state *s, char *action)
 	}
 }
 
+unsigned int	get_pos(unsigned int nb, t_stack *s)
+{
+	unsigned int	ct;
+
+	ct = 1;
+	while (s != NULL && s->s_ind != nb)
+	{
+		ct++;
+		s = s->next;
+	}
+	if (s == NULL)
+		print_error("", "In calculate_sum : no number found.");
+	return (ct);
+}
+
+unsigned int	get_shortest_way(unsigned int *size, unsigned int pos_el,
+	unsigned int sorted_pos, unsigned int offset)
+{
+	unsigned int	path;
+
+	path = 0;
+	return (path);
+} 
+
 /**
  * 
  * Je fais comme si la stack b etait pose sur la stack a dans l'ordre inverse
@@ -141,13 +165,14 @@ long	calculate_sum(t_stack *a, t_stack *b)
 	size_b = get_stack_size(b);
 	while (ct < size_b)
 	{
-		sum += 1;
+		// sum += size_b - get_dist(s);
+		sum += get_pos(ct, b);
 		ct++;
 	}
 	ct = 0;
 	while (ct < size_a)
 	{
-		sum += get_dist(a->s_ind);
+		sum += get_pos(a->s_ind) + size_b;
 		ct++;
 	}
 	return (sum);
@@ -181,9 +206,11 @@ void	add_next_states(t_state *init_state, char **moves)
 	unsigned int	ct;
 	t_state			*next;
 	t_state			*cur;
+	t_state			*tmp;
 
 	ct = 0;
 	cur = init_state;
+	tmp = init_state->next;
 	while (moves[ct] != NULL)
 	{
 		next = new_state(init_state, moves[ct]);
@@ -192,6 +219,8 @@ void	add_next_states(t_state *init_state, char **moves)
 		cur = cur->next;
 		ct++;
 	}
+	//IMPORTANT CAR ON SAVE LE SUIVANT PRE ALGO
+	cur->next = tmp;
 }
 
 void	print_all(t_state *s)
@@ -210,6 +239,18 @@ void	print_all(t_state *s)
 	}
 }
 
+void	remove_state(t_state *s, t_state *removed)
+{
+	t_state	*next;
+
+	while (s->next != removed)
+		s = s->next;
+	next = removed->next;
+	s->next = next;
+	removed->next = NULL;
+	free_state(removed);
+}
+
 t_state	*mon_algo(t_state *cur)
 {
 	t_state			*s;
@@ -226,6 +267,16 @@ t_state	*mon_algo(t_state *cur)
 	free(moves);
 	print_all(cur);
 	printf("States !!!!!\n");
+	while (cur != NULL)
+	{
+		next = get_best_state(cur);
+		if (mon_algo(next) != NULL)
+		{
+			s = next;
+			break ;
+		}
+		remove_state(cur, next);
+	}
 	return (s);
 }
 

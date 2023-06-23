@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/22 18:55:47 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:29:46 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,6 @@ void	opti_inst(t_inst *instructions)
 	}
 }
 
-unsigned int	get_distance(t_stack *s, int nb)
-{
-	int	ct;
-
-	ct = 0;
-	while (s != NULL && (s->nb != nb))
-	{
-		s = s->next;
-		ct++;
-	}
-	return (ct);
-}
-
 void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
 {
 	while (get_stack_size(s_a) > 2)
@@ -80,22 +67,6 @@ void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
 		else
 			rotate_a(&s_a, inst, 1);
 	}
-}
-
-unsigned int	get_start(t_stack *s)
-{
-	unsigned int	size;
-	unsigned int	res;
-
-	size = get_stack_size(s);
-	res = 0;
-	while (size > 0)
-	{
-		res++;
-		size = size >> 1;
-	}
-	//printf("res %d\n", res);
-	return (res);
 }
 
 void	push_swap(t_stack *stk_a)
