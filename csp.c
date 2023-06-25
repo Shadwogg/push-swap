@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:54:36 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/25 18:18:30 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/25 23:34:46 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,105 @@ char	**get_moves(t_state *cur)
 	tab[size] = NULL;
 	fill_move(tab, size, cur->s_a, cur->s_b);
 	return (tab);
+}
+
+// int	has_opposite(char *inst, char **m)
+// {
+// 	int	ct;
+// 	int	bool;
+
+// 	bool = 0;
+// 	ct = -1;
+// 	while (m[++ct])
+// 	{
+// 		if (inst[0] == 'p' && m[ct][0] == 'p' && inst[1] != m[ct][1])
+// 		{
+// 			m[ct][0] = 'z';
+// 			bool = 1;
+// 		}
+// 		if (inst[0] == 's' && m[ct][0] == 's' && m[ct][1] == inst[1])
+// 		{
+// 			m[ct][0] = 'z';
+// 			bool = 1;
+// 		}
+// 		if (inst[0] == 'r' && m[ct][0] == 'r' && m[ct][1] == inst[1])
+// 		{
+// 			m[ct][0] = 'z';
+// 			bool = 1;
+// 		}
+// 		if (inst[0] == 'r' && inst[1] == 'r'
+// 			&& m[ct][0] == 'r' && m[ct][1] == 'r'
+// 			&& inst[2] == m[ct][2])
+// 		{
+// 			m[ct][0] = 'z';
+// 			bool = 1;
+// 		}
+// 	}
+// 	return (bool);
+// }
+
+int	has_opposite(char *inst, char **m)
+{
+	int	ct;
+
+	ct = -1;
+	while (m[++ct])
+	{
+		if (inst[0] == 'p' && m[ct][0] == 'p' && inst[1] != m[ct][1])
+			m[ct] = "zz";
+		if (inst[0] == 's' && m[ct][0] == 's' && m[ct][1] == inst[1])
+			m[ct] = "zz";
+		if (inst[0] == 'r' && m[ct][0] == 'r' && m[ct][1] == inst[1])
+			m[ct] = "zz";
+		if (inst[0] == 'r' && inst[1] == 'r'
+			&& m[ct][0] == 'r' && m[ct][1] == 'r'
+			&& inst[2] == m[ct][2])
+			m[ct] = "zzz";
+	}
+	ct = -1;
+	while (m[++ct])
+		if (m[ct][0] == 'z')
+			return (1);
+	return (0);
+}
+
+/**
+ * Rapproche de 1 case vers la gauche pour chaque case ou y a un z
+*/
+void	remove_opposite(char **m)
+{
+	int	ct;
+	int	ct2;
+
+	ct = -1;
+	while (m[++ct])
+	{
+		if (m[ct][0] == 'z')
+		{
+			ct2 = ct - 1;
+			while (m[++ct2] && m[ct2 + 1])
+				m[ct2] = m[ct2 + 1];
+			m[ct2 + 1] = NULL;
+		}
+	}
+}
+
+t_inst	*get_last_inst(t_inst *inst)
+{
+	if (inst == NULL)
+		return (NULL);
+	while (inst->next != NULL)
+		inst = inst->next;
+	return (inst);
+}
+
+char	**opti_moves(char **moves, t_inst *inst)
+{
+	if (inst == NULL || inst->str == NULL || moves == NULL || *moves == NULL)
+		return (moves);
+	if (has_opposite(get_last_inst(inst)->str, moves))
+		remove_opposite(moves);
+	return (moves);
 }
 
 void	play(t_state *s, char *action)
@@ -201,17 +300,13 @@ unsigned long	calculate_sum(t_stack *a, t_stack *b)
 t_state	*new_state(t_state *cur, char *action)
 {
 	t_state	*new;
-	t_stack	*tmp2;
-	t_stack	*tmp3;
 
 	new = malloc(sizeof(t_state));
 	if (new == NULL)
 		print_error("", "Malloc error");
 	new->inst = cp_inst(cur->inst);
-	tmp2 = cp_stack(cur->s_a);
-	new->s_a = tmp2;
-	tmp3 = cp_stack(cur->s_b);
-	new->s_b = tmp3;
+	new->s_a = cp_stack(cur->s_a);
+	new->s_b = cp_stack(cur->s_b);
 	new->next = NULL;
 	play(new, action);
 	new->cost = calculate_sum(new->s_a, new->s_b);
@@ -229,6 +324,10 @@ void	add_next_states(t_state *init_state, char **moves)
 	t_state			*next;
 	t_state			*cur;
 
+	if (moves == NULL || *moves == NULL)
+		print_error("", "No move allocated");
+	if (init_state == NULL)
+		print_error("", "Erreur in adding new states ; init_state is null");
 	ct = 0;
 	cur = init_state;
 	while (cur->next != NULL)
@@ -264,38 +363,67 @@ void	print_all(t_state *s)
 	}
 }
 
+/**
+ * Remove the wanted state from s and free it
+*/
+// void	remove_state(t_state **s, t_state *removed)
+// {
+// 	t_state	*cur;
+
+// 	cur = *s;
+// 	if (removed == NULL)
+// 	{
+// 		free_state(*s);
+// 		*s = NULL;
+// 	}
+// 	if (s == NULL || *s == NULL)
+// 	{
+// 		// printf("%p %p\n", *s, removed);
+// 		return ;
+// 	}
+// 	if (*s == removed)
+// 	{
+// 		*s = removed->next;
+// 		free_state(removed);
+// 		return ;
+// 	}
+// 	while (cur != NULL && cur->next != removed)
+// 		cur = cur->next;
+// 	if (cur == NULL)
+// 		print_error("", "ERROROROROR");
+// 	if (cur->next == removed)
+// 	{
+// 		cur->next = removed->next;
+// 		removed->next = NULL;
+// 		free_state(removed);
+// 	}
+// }
+
 void	remove_state(t_state **s, t_state *removed)
 {
-	t_state	*cur;
+ 	t_state	*cur;
 
-	cur = *s;
-	if (removed == NULL)
-	{
-		free_state(*s);
-		*s = NULL;
-	}
+	printf("SCHLAG\n");
 	if (s == NULL || *s == NULL)
-	{
-		printf("%p %p\n", *s, removed);
-		return ;
-	}
+		print_error("", "No list of state provided.");
 	if (*s == removed)
 	{
-		*s = removed->next;
-		free_state(removed);
+		*s = (*s)->next;
+		free(removed);
 		return ;
 	}
+	cur = *s;
 	while (cur != NULL && cur->next != removed)
 		cur = cur->next;
-	if (cur == NULL)
-		print_error("", "ERROROROROR");
-	if (cur->next == removed)
+	printf("HERE ?\n");
+	if (cur->next == removed && removed != NULL)
 	{
 		cur->next = removed->next;
-		// printf("HERE\n");
 		removed->next = NULL;
 		free_state(removed);
 	}
+	// else
+	// 	print_error("", "removed not found");
 }
 
 t_state	*get_next_best_state(t_state *s)
@@ -318,11 +446,11 @@ t_state	*get_next_best_state(t_state *s)
 		}
 		cur = cur->next;
 	}
-	if (s == min_state)
-	{
-		// printf("CAS BIZARRE\n");
-		return (NULL);
-	}
+	// if (s == min_state)
+	// {
+	// 	// printf("CAS BIZARRE\n");
+	// 	return (NULL);
+	// }
 	return (min_state);
 }
 
@@ -332,11 +460,11 @@ t_state	*mon_algo(t_state *cur, unsigned int depth)
 	t_state			*next_state;
 	char			**moves;
 
-	if (depth == 20 || cur == NULL)
+	if (depth == 50 || cur == NULL)
 		return (NULL);
 	if (is_sorted(cur->s_a, 0) && is_sorted(cur->s_b, 1))
 		return (cur);
-	moves = get_moves(cur);
+	moves = opti_moves(get_moves(cur), cur->inst);
 	s = NULL;
 	add_next_states(cur, moves);
 	free(moves);
@@ -344,6 +472,7 @@ t_state	*mon_algo(t_state *cur, unsigned int depth)
 	// print_all(cur);
 	while (cur != NULL && cur->next != NULL)
 	{
+		printf("MON PROBLEME, C'EST QUAND BEST STATE = CUR, A REGLER");
 		// printf("DEPTH = %d\n", depth);
 		// print_all(cur);
 		next_state = get_next_best_state(cur);
@@ -352,6 +481,7 @@ t_state	*mon_algo(t_state *cur, unsigned int depth)
 			return (s);
 		remove_state(&cur, next_state);
 	}
+	// printf("	Return\n");
 	return (s);
 }
 

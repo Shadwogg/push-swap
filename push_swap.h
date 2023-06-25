@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/24 17:00:22 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/25 21:34:00 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void			free_tab_str(char **arr, int size);
 
 void			init_inst(t_inst **inst, char *str);
 t_inst			*cp_inst(t_inst *inst);
-void			init_stack(t_stack **s, int nb, unsigned int s_ind);
+void			init_stack(t_stack *s, int nb, unsigned int s_ind);
 t_stack			*cp_stack(t_stack *s);
 
 /************************************PARSE*************************************/

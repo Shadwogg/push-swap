@@ -12,11 +12,11 @@
 
 #include "push_swap.h"
 
-void	init_stack(t_stack **s, int nb, unsigned int s_ind)
+void	init_stack(t_stack *s, int nb, unsigned int s_ind)
 {
-	(*s)->nb = nb;
-	(*s)->s_ind = s_ind;
-	(*s)->next = NULL;
+	s->nb = nb;
+	s->s_ind = s_ind;
+	s->next = NULL;
 }
 
 t_stack	*cp_stack(t_stack *s)
@@ -30,7 +30,7 @@ t_stack	*cp_stack(t_stack *s)
 	new = malloc(sizeof(t_stack));
 	if (new == NULL)
 		print_error("", "Malloc error");
-	init_stack(&new, s->nb, s->s_ind);
+	init_stack(new, s->nb, s->s_ind);
 	s = s->next;
 	cur = new;
 	while (s != NULL)
@@ -38,7 +38,7 @@ t_stack	*cp_stack(t_stack *s)
 		next = malloc(sizeof(t_stack));
 		if (next == NULL)
 			print_error("", "Malloc error");
-		init_stack(&next, s->nb, s->s_ind);
+		init_stack(next, s->nb, s->s_ind);
 		cur->next = next;
 		cur = cur->next;
 		s = s->next;

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/25 17:27:38 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/25 20:40:23 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	free_state(t_state *s)
 		free(prev);
 		prev = s;
 	}
+	// print_stack(prev->s_a, "UN ");
 	free_stack(prev->s_a);
 	free_stack(prev->s_b);
 	free_inst(prev->inst);
