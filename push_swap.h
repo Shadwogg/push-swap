@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/23 15:13:54 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:00:22 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int				is_sorted(t_stack *stk, char order);
 
 unsigned int	get_stack_size(t_stack *stk);
 t_stack			*get_last(t_stack *stk);
-t_stack			*get_el(t_stack *stk, int numero);
+t_stack			*get_el(t_stack *stk, unsigned int numero);
 t_stack			*get_el_sorted(t_stack *stk, unsigned int numero);
 t_stack			*get_prev_el(t_stack *s, t_stack *el);
 void			update_indexes(t_stack *stk);
@@ -87,7 +87,7 @@ int				in_stack(int nb, t_stack *stk);
 
 /************************************ALGO**************************************/
 
-t_state			*mon_algo(t_state *current);
+t_state			*mon_algo(t_state *current, unsigned int depth);
 
 /************************************MAIN*************************************/
 

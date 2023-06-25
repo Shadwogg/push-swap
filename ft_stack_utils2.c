@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/21 14:10:46 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/24 16:46:33 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,20 @@ t_stack	*get_last(t_stack *stk)
 	return (stk);
 }
 
-t_stack	*get_el(t_stack *stk, int numero)
+/**
+ * Return the numero element of the stack
+*/
+t_stack	*get_el(t_stack *stk, unsigned int numero)
 {
-	while (stk != NULL)
+	unsigned int	ct;
+
+	ct = 0;
+	while (stk != NULL && ct < numero)
 	{
-		if (stk->nb == numero)
-			return (stk);
+		ct++;
 		stk = stk->next;
 	}
-	return (NULL);
+	return (stk);
 }
 
 t_stack	*get_el_sorted(t_stack *stk, unsigned int numero)

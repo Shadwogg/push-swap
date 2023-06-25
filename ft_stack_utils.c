@@ -36,7 +36,7 @@ t_stack	*cp_stack(t_stack *s)
 	while (s != NULL)
 	{
 		next = malloc(sizeof(t_stack));
-		if (new == NULL)
+		if (next == NULL)
 			print_error("", "Malloc error");
 		init_stack(&next, s->nb, s->s_ind);
 		cur->next = next;

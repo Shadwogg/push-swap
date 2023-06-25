@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/23 14:29:46 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/25 17:44:07 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,26 @@ void	push_swap(t_stack *stk_a)
 {
 	t_state	*init;
 	t_state	*soluce;
-	t_inst	*inst;
 
-	inst = NULL;
 	update_indexes(stk_a);
 	//print_stack(stk_a, "-> ");
 	//print_stack(stk_b, "-> ");
-	init = malloc(sizeof(t_state) * 1);
+	init = malloc(sizeof(t_state));
 	if (init == NULL)
 		print_error("", "MALLOC ERROR");
-	init->cost = -1;
-	init->inst = inst;
+	init->cost = (unsigned long) -1;
+	init->inst = NULL;
 	init->s_a = stk_a;
 	init->s_b = NULL;
-	soluce = mon_algo(init);
+	//cp_inst(init->inst);
+	soluce = mon_algo(init, 0);
 	if (soluce == NULL)
 		print_error("", "No solution founded");
 	// optimize(soluce->inst);
-	// read_inst(*(soluce->inst));
+	printf("Solution found ?\n");
+	//read_inst(soluce->inst);
+	// free(init);
+	// free_stack(stk_a);
 }
 
 int	main(int argc, char **argv)

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:28:25 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/23 15:49:52 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/25 17:27:38 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	free_stack(t_stack *stk)
 {
 	t_stack	*next;
 
+	if (stk == NULL)
+		return ;
 	while (stk->next != NULL)
 	{
 		next = stk->next;
@@ -34,26 +36,30 @@ void	free_stack(t_stack *stk)
 		stk = next;
 	}
 	free(stk);
+	stk = NULL;
 }
 
 void	free_inst(t_inst *inst)
 {
-	t_inst	*prev;
+	t_inst	*next;
 
-	prev = inst;
+	if (inst == NULL)
+		return ;
 	while (inst->next != NULL)
 	{
-		inst = inst->next;
-		free(prev);
-		prev = inst;
+		next = inst->next;
+		free(inst);
+		inst = next;
 	}
-	free(prev);
+	free(inst);
 }
 
 void	free_state(t_state *s)
 {
 	t_state	*prev;
 
+	if (s == NULL)
+		return ;
 	prev = s;
 	while (s->next != NULL)
 	{

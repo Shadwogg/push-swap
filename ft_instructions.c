@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 16:25:51 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/22 18:42:02 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/24 17:51:43 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_inst	*cp_inst(t_inst *inst)
 
 	if (inst == NULL)
 		return (NULL);
-	new = malloc(sizeof(inst));
+	new = malloc(sizeof(t_inst));
 	if (new == NULL)
 		print_error("", "Malloc error");
 	init_inst(&new, inst->str);
