@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:54:36 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/25 23:34:46 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/26 16:53:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,16 @@ void	print_moves(char **m)
 		ct++;
 	}
 	ft_printf("\n");
+}
+
+void	pls(t_state *s)
+{
+	while (s != NULL)
+	{
+		ft_printf("%p | ", s);
+		s = s->next;
+	}
+	ft_printf("|\n");
 }
 
 // 70%
@@ -308,6 +318,7 @@ t_state	*new_state(t_state *cur, char *action)
 	new->s_a = cp_stack(cur->s_a);
 	new->s_b = cp_stack(cur->s_b);
 	new->next = NULL;
+	new->prev = NULL;
 	play(new, action);
 	new->cost = calculate_sum(new->s_a, new->s_b);
 	// printf("	%s\n", new->inst->str);
@@ -335,6 +346,7 @@ void	add_next_states(t_state *init_state, char **moves)
 	while (moves[ct] != NULL)
 	{
 		next = new_state(init_state, moves[ct]);
+		next->prev = cur;
 		// printf("		%s\n", next->inst->str);
 		// printf("\nTEST\nCost = %lu\n", next->cost);
 		// print_stack(next->s_a, "+");
@@ -403,27 +415,38 @@ void	remove_state(t_state **s, t_state *removed)
 {
  	t_state	*cur;
 
-	printf("SCHLAG\n");
+	printf("STATE REMOVING\n");
+	if (removed == NULL)
+		return ;
 	if (s == NULL || *s == NULL)
 		print_error("", "No list of state provided.");
 	if (*s == removed)
 	{
-		*s = (*s)->next;
+		//SYMPTOME DU PB ICI *s = removed->next;
+		// printf("Branche du s == removed\n");
+		(*s)->prev->next = removed->next;
+		*s = removed->next;
+		removed->next = NULL;
 		free(removed);
 		return ;
 	}
 	cur = *s;
-	while (cur != NULL && cur->next != removed)
+	while (cur != NULL && cur->next != NULL && cur->next != removed)
 		cur = cur->next;
-	printf("HERE ?\n");
 	if (cur->next == removed && removed != NULL)
 	{
+		printf("removing\n");
 		cur->next = removed->next;
 		removed->next = NULL;
 		free_state(removed);
 	}
-	// else
-	// 	print_error("", "removed not found");
+	else if (cur->next == NULL && cur != removed)
+	{
+		pls(*s);
+		printf("%p\n", removed);
+		print_error("", "Bouh\n");
+	}
+	// printf("HERE ?\n");
 }
 
 t_state	*get_next_best_state(t_state *s)
@@ -446,11 +469,6 @@ t_state	*get_next_best_state(t_state *s)
 		}
 		cur = cur->next;
 	}
-	// if (s == min_state)
-	// {
-	// 	// printf("CAS BIZARRE\n");
-	// 	return (NULL);
-	// }
 	return (min_state);
 }
 
@@ -460,21 +478,28 @@ t_state	*mon_algo(t_state *cur, unsigned int depth)
 	t_state			*next_state;
 	char			**moves;
 
-	if (depth == 50 || cur == NULL)
+	// Tester le noeud en cours
+	if (depth == 100 || cur == NULL)
 		return (NULL);
 	if (is_sorted(cur->s_a, 0) && is_sorted(cur->s_b, 1))
 		return (cur);
+	// printf("depth = %d\n", depth);
+	//Ajouter les nouveaux noeuds de l'arbre
 	moves = opti_moves(get_moves(cur), cur->inst);
 	s = NULL;
 	add_next_states(cur, moves);
 	free(moves);
 	// printf("\n\n\n");
 	// print_all(cur);
+	// printf("d = %d\n", depth);
+	// Parcourir les nouveaux noeuds
 	while (cur != NULL && cur->next != NULL)
 	{
-		printf("MON PROBLEME, C'EST QUAND BEST STATE = CUR, A REGLER");
+		// printf("MON PROBLEME, C'EST QUAND BEST STATE = CUR, A REGLER (resolvable avec un attribut prev ?)\n");
 		// printf("DEPTH = %d\n", depth);
 		// print_all(cur);
+		// pls(cur);
+		printf("-------------\n");
 		next_state = get_next_best_state(cur);
 		s = mon_algo(next_state, depth + 1);
 		if (s != NULL)

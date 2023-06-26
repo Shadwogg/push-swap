@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/25 21:34:00 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/26 15:12:41 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ typedef struct s_inst
 	struct s_inst	*next;
 }	t_inst;
 
+//Double chained array
 typedef struct s_state
 {
 	struct s_stack	*s_a;
 	struct s_stack	*s_b;
 	unsigned long	cost;
 	struct s_inst	*inst;
+	struct s_state	*prev;
 	struct s_state	*next;	
 }	t_state;
 
