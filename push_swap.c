@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/26 15:36:28 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/26 22:58:45 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	push_swap(t_stack *stk_a)
 	init->s_b = NULL;
 	init->next = NULL;
 	init->prev = NULL;
+	printf("INIT %p\n", init->s_a);
 	soluce = mon_algo(init, 0);
 	if (soluce == NULL)
 		print_error("", "No solution founded");

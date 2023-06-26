@@ -6,13 +6,13 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/06/22 15:19:26 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/06/26 20:02:37 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL = /bin/sh
 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -g3
 
 NAME = push_swap
 
@@ -94,8 +94,7 @@ fclean : clean
 	@echo "$(GREEN)All compiled files removed.$(NC)"
 
 debug : $(OBJS_COMMON) $(OBJ_MAIN) lib
-	@gcc $(FLAGS) $(OBJS_COMMON) $(OBJ_MAIN) -o $(NAME) $(LIB) -g3
-	valgrind ./push_swap 1 2 3
+	@gcc $(FLAGS) -fsanitize=address $(OBJS_COMMON) $(OBJ_MAIN) -o $(NAME) $(LIB)
 	
 test : re
 #	./push_swap "-2147483648 1 0 -1 2147483647"
