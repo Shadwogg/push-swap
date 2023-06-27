@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:55:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/10 18:41:55 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/27 19:53:16 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,55 @@ void	check_double(t_stack *stk)
 	}
 }
 
+// t_stack	*ft_parse(int size, char **input)
+// {
+// 	t_stack	*stk;
+// 	t_stack	*head;
+// 	t_stack	*current;
+// 	int		ct;
+
+// 	stk = malloc(sizeof(t_stack));
+// 	if (stk == NULL)
+// 		print_error("", "STK NULL");
+// 	// ft_putstr_fd("METHODO\n", 1);
+// 	stk->nb = ft_atoi(input[0]);
+// 	stk->s_ind = 0;
+// 	ct = 1;
+// 	head = stk;
+// 	while (ct < size)
+// 	{
+// 		// ft_putstr_fd("	METHODO\n", 1);
+// 		current = malloc(sizeof(t_stack));
+// 		if (current == NULL)
+// 			print_error("", "NALLOC ERRORRRRR");
+// 		current->s_ind = 0;
+// 		current->nb = ft_atoi(input[ct]);
+// 		// ft_printf("%d\n", current->nb);
+// 		head->next = current;
+// 		head = head->next;
+// 		ct++;
+// 	}
+// 	head->next = NULL;
+// 	// print_stack(stk, " ");
+// 	// ft_putstr_fd("METHODO\n", 1);
+// 	return (stk);
+// }
+
 t_stack	*ft_parse(int size, char **input)
 {
 	t_stack	*stk;
-	t_stack	*next;
+	t_stack	*last;
 
 	stk = NULL;
-	next = NULL;
 	while (--size >= 0)
 	{
-		stk = malloc(sizeof(t_stack));
-		if (stk == NULL)
-			printf("ERRERO");
-		stk->nb = ft_atoi(input[size]);
-		stk->next = next;
-		next = stk;
+		last = malloc(sizeof(t_stack));
+		if (last == NULL)
+			print_error("", "NALLOC ERRORRRRR");
+		last->s_ind = 0;
+		last->nb = ft_atoi(input[size]);
+		last->next = stk;
+		stk = last;
 	}
 	return (stk);
 }

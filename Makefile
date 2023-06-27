@@ -6,13 +6,13 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/06/26 20:02:37 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/06/27 19:39:36 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL = /bin/sh
 
-FLAGS = -Wall -Werror -Wextra -g3
+FLAGS = -Wall -Werror -Wextra -g
 
 NAME = push_swap
 
@@ -27,6 +27,7 @@ SRCS = ft_free.c			\
 		ft_traductions.c	\
 		ft_utils.c			\
 		ft_write.c			\
+		radixsort.c			\
 		csp.c
 
 S_MAIN = push_swap.c

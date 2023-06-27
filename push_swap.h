@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/26 15:12:41 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/27 19:34:17 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_state
 	struct s_state	*next;	
 }	t_state;
 
+
+void			radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct);
 
 /************************************PRINT*************************************/
 void			print_stack(t_stack *stk, char *str);
@@ -89,7 +91,7 @@ int				in_stack(int nb, t_stack *stk);
 
 /************************************ALGO**************************************/
 
-t_state			*mon_algo(t_state *current, unsigned int depth);
+t_state			*mon_algo(t_state **current, unsigned int depth);
 
 /************************************MAIN*************************************/
 

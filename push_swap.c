@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/26 22:58:45 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:28:01 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,31 +69,70 @@ void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
 	}
 }
 
+// void	push_swap(t_stack *stk_a)
+// {
+// 	t_state	*init;
+// 	t_state	*soluce;
+
+// 	update_indexes(stk_a);
+// 	//print_stack(stk_a, "-> ");
+// 	//print_stack(stk_b, "-> ");
+// 	init = malloc(sizeof(t_state));
+// 	if (init == NULL)
+// 		print_error("", "MALLOC ERROR");
+// 	init->cost = (unsigned long) -1;
+// 	init->inst = NULL;
+// 	init->s_a = stk_a;
+// 	init->s_b = NULL;
+// 	init->next = NULL;
+// 	init->prev = NULL;
+// 	printf("INIT %p\n", init->s_a);
+// 	soluce = mon_algo(&init, 0);
+// 	if (soluce == NULL)
+// 		print_error("", "No solution founded");
+// 	// optimize(soluce->inst);
+// 	read_inst(soluce->inst);
+// 	free(init);
+// 	free_stack(stk_a);
+// }
+
+unsigned int	get_start(t_stack *s)
+{
+	unsigned int	size;
+	unsigned int	res;
+
+	size = get_stack_size(s);
+	res = 0;
+	while (size > 0)
+	{
+		res++;
+		size = size >> 1;
+	}
+	//printf("res %d\n", res);
+	return (res);
+}
+
 void	push_swap(t_stack *stk_a)
 {
-	t_state	*init;
-	t_state	*soluce;
+	t_stack	*stk_b;
+	t_inst	*instructions;
+	int 	ct;
 
+	instructions = NULL;
+	stk_b = NULL;
 	update_indexes(stk_a);
 	//print_stack(stk_a, "-> ");
 	//print_stack(stk_b, "-> ");
-	init = malloc(sizeof(t_state));
-	if (init == NULL)
-		print_error("", "MALLOC ERROR");
-	init->cost = (unsigned long) -1;
-	init->inst = NULL;
-	init->s_a = stk_a;
-	init->s_b = NULL;
-	init->next = NULL;
-	init->prev = NULL;
-	printf("INIT %p\n", init->s_a);
-	soluce = mon_algo(init, 0);
-	if (soluce == NULL)
-		print_error("", "No solution founded");
-	// optimize(soluce->inst);
-	read_inst(soluce->inst);
-	free(init);
-	free_stack(stk_a);
+	//mon_algo(stk_a, stk_b, instructions);
+	//new_algo(stk_a, stk_b, &instructions);
+	//push_b(&stk_a, &stk_b, &instructions, get_stack_size(stk_a));
+	//basic_radix_sort(&stk_a, &stk_b, &instructions, get_start(stk_a));
+	ct = -1;
+	// while (++ct <= 7)
+	radix_sort(&stk_a, &stk_b, &instructions, ++ct);
+	// ft_printf("stk_a->nb %d\n", stk_a->nb);
+	optimize(instructions);
+	read_inst(instructions);
 }
 
 int	main(int argc, char **argv)
@@ -109,6 +148,7 @@ int	main(int argc, char **argv)
 		parse_str(argv[1], &stk);
 	else
 		parse_strs(argc - 1, argv + 1, &stk);
+	// print_stack(stk, "->");
 	if (is_sorted(stk, 0))
 		return (0);
 	push_swap(stk);

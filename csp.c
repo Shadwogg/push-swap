@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 14:54:36 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/26 23:30:11 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/27 19:25:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,113 +444,175 @@ void	print_all(t_state *s)
 // 	// printf("HERE ?\n");
 // }
 
-void	remove_state(t_state **s, t_state **removed)
+// void	remove_state(t_state **s, t_state **removed)
+// {
+// 	t_state	*cur;
+
+// 	// pls(*s);
+// 	// printf("TO free = %p\n", *removed);
+// 	if (s == NULL || *s == NULL)
+// 		print_error("", "the list of state is NULL");
+// 	if (removed == NULL || *removed == NULL)
+// 		print_error("", "Removed is NULLLLLLL");
+// 	if (*s == *removed)
+// 	{
+// 		// printf("prev %p, next %p\n", (*s)->prev, (*s)->next);
+// 		if ((*s)->prev == NULL)
+// 		{
+// 			*s = NULL;
+// 			return ;
+// 		}
+// 		(*s)->prev->next = (*s)->next;
+// 		(*s)->next->prev = (*s)->prev;
+// 		(*s)->next = NULL;
+// 		// printf("1\n");
+// 		// printf("prev %p, next %p\n", (*s)->prev, (*s)->next);
+// 		// pls(*s);
+// 		free_state(*s);
+// 		*s = NULL;
+// 		return ;
+// 	}
+// 	cur = *s;
+// 	printf("---------------------------\n");
+// 	printf("Salut\n");
+// 	printf("pointer = %p\n", cur->next);
+// 	pls(cur);
+// 	while (cur->next != NULL && cur->next != *removed)
+// 		cur = cur->next;
+// 	if (cur->next != *removed)
+// 	{
+// 		// printf("REMOVED NOT FOUND\n");
+// 		// pls(*s);
+// 		return ;
+// 		print_error("", "Removed not found");
+// 	}
+// 	cur->next = (*removed)->next;
+// 	if (cur->next != NULL)
+// 		cur->next->prev = cur;
+// 	(*removed)->next = NULL;
+// 	// printf("2\n");
+// 	free_state(*removed);
+// 	*removed = NULL;
+
+// }
+
+void	remove_state(t_state **s, t_state **removing)
 {
 	t_state	*cur;
 
-	// pls(*s);
-	// printf("TO free = %p\n", *removed);
+	// pls(*removing);
+	// ft_putstr_fd("	dicho\n", 1);
 	if (s == NULL || *s == NULL)
-		print_error("", "the list of state is NULL");
-	if (removed == NULL || *removed == NULL)
-		print_error("", "Removed is NULLLLLLL");
-	if (*s == *removed)
+		print_error("", "S is NULL");
+	if (removing == NULL || *removing == NULL)
+		print_error("", "Removing is NULLLLLLL");
+	if (*s == *removing)
 	{
-		// printf("prev %p, next %p\n", (*s)->prev, (*s)->next);
-		if ((*s)->prev == NULL)
-		{
-			*s = NULL;
-			return ;
-		}
-		(*s)->prev->next = (*s)->next;
-		(*s)->next = NULL;
-		// printf("1\n");
-		// printf("prev %p, next %p\n", (*s)->prev, (*s)->next);
-		// pls(*s);
-		free_state(*s);
-		*s = NULL;
+		// ft_printf("	TAB %p\n", *s);
+		*s = (*s)->next;
+		if ((*removing)->prev != NULL)
+			(*removing)->prev->next = NULL;
+		(*removing)->next = NULL;
+		// ft_putstr_fd("	prefree\n", 1);
+		free_state(*removing);
+		// ft_putstr_fd("	postfree\n", 1);
+		*removing = NULL;
 		return ;
 	}
 	cur = *s;
-	// pls(cur);
-	while (cur->next != NULL && cur->next != *removed)
-		cur = cur->next;
-	if (cur->next != *removed)
+	while (cur->next != NULL && cur->next != *removing)
 	{
-		// printf("REMOVED NOT FOUND\n");
-		// pls(*s);
-		return ;
-		print_error("", "Removed not found");
+		// ft_putstr_fd("		WHILE DU TURFU\n", 1);
+		cur = cur->next;
 	}
-	cur->next = (*removed)->next;
-	(*removed)->next = NULL;
-	// printf("2\n");
-	free_state(*removed);
-	*removed = NULL;
+	if (cur->next != *removing)
+	{
+		// pls(*removing);
+		// printf("%lu\n", (*removing)->cost);
+		// print_stack((*removing)->s_a, "a");
+		// pls(*s);
+		print_error("", "BUG\n");
+	}
+	cur->next = cur->next->next;
+	if ((*removing)->prev != NULL)
+		(*removing)->prev->next = (*removing)->next;
+	if ((*removing)->next != NULL)
+		(*removing)->next->prev = (*removing)->prev;
+	(*removing)->next = NULL;
+	// ft_putstr_fd("		pre REEF\n", 1);
+	free_state(*removing);
+	// ft_putstr_fd("		post REEF\n", 1);
+	*removing = NULL;
 }
 
-t_state	*get_next_best_state(t_state *s)
+
+t_state	* get_next_best_state(t_state *s)
 {
 	unsigned long	min;
 	t_state			*min_state;
 	t_state			*cur;
 
+	ft_putstr_fd("BEBE\n", 1);
 	if (s == NULL)
 		print_error("", "TMTS");
 	min = (unsigned long) -1;
 	min_state = s;
 	cur = s->next;
+	ft_putstr_fd("	CARRE\n", 1);
 	while (cur != NULL)
 	{
+		ft_putstr_fd("		HACHE\n", 1);
+		ft_printf("%p\n", cur);
 		if (cur->cost < min)
 		{
 			min = cur->cost;
 			min_state = cur;
 		}
+		ft_putstr_fd("		SLEEP\n", 1);
 		cur = cur->next;
 	}
+	ft_putstr_fd("SUCRE\n", 1);
 	return (min_state);
 }
 
-t_state	*mon_algo(t_state *cur, unsigned int depth)
+t_state	*mon_algo(t_state **cur, unsigned int depth)
 {
 	t_state			*s;
 	t_state			*next_state;
 	char			**moves;
 
-	printf("PROBLEME : Je modifie ce que je parcours donc je free ce que j'utilise et je peux pas savoir si c'est free");
 	// Tester le noeud en cours
-	if (depth == 100 || cur == NULL)
+	if (depth == 10 || cur == NULL)
 		return (NULL);
-	if (is_sorted(cur->s_a, 0) && cur->s_b == NULL)
-		return (cur);
-	// printf("depth = %d\n", depth);
+	if (is_sorted((*cur)->s_a, 0) && (*cur)->s_b == NULL)
+		return (*cur);
 	//Ajouter les nouveaux noeuds de l'arbre
-	moves = opti_moves(get_moves(cur), cur->inst);
+	moves = opti_moves(get_moves((*cur)), (*cur)->inst);
 	s = NULL;
-	add_next_states(cur, moves);
+	add_next_states((*cur), moves);
+	(*cur)->next->prev = NULL;
 	if (moves != NULL)
 		free(moves);
-	// print_all(cur);
 	// Parcourir les nouveaux noeuds
-	while (cur != NULL && cur->next != NULL)
+	while (cur != NULL && (*cur) != NULL)
 	{
-		// print_all(cur);
-		// pls(cur);
-		// printf("-------------\n");
-		next_state = get_next_best_state(cur);
-		s = mon_algo(next_state, depth + 1);
+		// ft_printf("cur %p\n", cur);
+		// ft_printf("%p\n", *cur);
+		// ft_printf("next %p\n", (*cur)->next);
+		// pls(*cur);
+		ft_printf("LE SUIVaNT %p\n", (*cur)->next);
+		next_state = get_next_best_state((*cur));
+		s = mon_algo(&next_state, depth + 1);
 		if (s != NULL)
 			return (s);
 		// pls(cur);
-		remove_state(&cur, &next_state);
-		if (cur == NULL)
-			return (NULL);
-		if (cur->prev != NULL)
-			cur = cur->prev;
-		// pls(cur);
+		if (next_state == NULL)
+			continue ;
+		remove_state(cur, &next_state);
+		ft_printf("	TESTSTSTTS %p\n", next_state);
+		// printf("POSTREMOVE\n");
+		// pls(*cur);
 	}
-	// printf("RETURN\n");
 	return (s);
 }
 

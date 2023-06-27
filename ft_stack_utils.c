@@ -25,6 +25,7 @@ t_stack	*cp_stack(t_stack *s)
 	t_stack	*next;
 	t_stack	*cur;
 
+	// ft_putstr_fd("-----TUTU\n", 1);
 	if (s == NULL)
 		return (NULL);
 	new = malloc(sizeof(t_stack));
@@ -43,6 +44,7 @@ t_stack	*cp_stack(t_stack *s)
 		cur = cur->next;
 		s = s->next;
 	}
+	// ft_putstr_fd("-----SORTIE\n", 1);
 	return (new);
 }
 

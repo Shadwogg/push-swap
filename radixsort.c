@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:29:02 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/21 19:14:50 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/27 22:30:23 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,45 +62,31 @@ int	is_swappable(t_stack *s, int order)
 void	radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct)
 {
 	//printf("Ct = %d\n", ct);
-	while (!is_bit_sorted(*s_a, ct, 1))
+	unsigned int	i;
+
+	i = 0;
+	while (i < get_stack_size(*s_a) + get_stack_size(*s_b))
 	{
 		//print_stack(*s_a, "- ");
-		/*if (is_swappable(*s_a, 1))
-			swap_a(s_a, inst, 1);*/
+		if (is_swappable(*s_a, 0))
+			swap_a(s_a, inst, 0);
 		if (!first_is_sorted((*s_a)->s_ind, ct, 1))
 			push_b(s_a, s_b, inst, 1);
 		else
 			rotate_a(s_a, inst, 1);
+		i++;
 	}
-	/*while (!is_bit_sorted(*s_b, ct + 1, 1))
-	{
-		if (is_swappable(*s_b, 1))
-			swap_b(s_b, inst, 1);
-		if (!first_is_sorted((*s_b)->s_ind, ct + 1, 1))
-			push_a(s_a, s_b, inst, 1);
-		else
-			rotate_b(s_b, inst, 1);
-	}*/
-	//printf("PuSH\n");
+	// while (!is_bit_sorted(*s_b, ct + 1, 1))
+	// {
+	// 	if (is_swappable(*s_b, 1))
+	// 		swap_b(s_b, inst, 1);
+	// 	if (!first_is_sorted((*s_b)->s_ind, ct + 1, 1))
+	// 		push_a(s_a, s_b, inst, 1);
+	// 	else
+	// 		rotate_b(s_b, inst, 1);
+	// }
+	// printf("PuSH\n");
 	push_a(s_a, s_b, inst, get_stack_size(*s_b));
-	if (!is_sorted(*s_a, 0) && ct > 1)
-		radix_sort(s_a, s_b, inst, ct - 1);
-}
-
-void	basic_radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct)
-{
-	//printf("is %d\n", first_is_sorted((*s_a)->s_ind, ct, 0));
-	//printf("is %d\n", is_bit_sorted(*s_a, ct, 0));
-	while (!is_bit_sorted(*s_b, ct, 0))
-	{
-		if (!first_is_sorted((*s_b)->s_ind, ct, 0))
-			push_a(s_a, s_b, inst, 1);
-		else
-			rotate_b(s_b, inst, 1);
-	}
-	if (*s_a != NULL)
-		push_b(s_a, s_b, inst, get_stack_size(*s_a));
-	//printf("ct %d\n", ct);
-	if ((!is_sorted(*s_a, 1) || !is_sorted(*s_b, 0)) && ct > 0)
-		basic_radix_sort(s_a, s_b, inst, ct - 1);
+	if (!is_sorted(*s_a, 0) && ct < 10)
+		radix_sort(s_a, s_b, inst, ct + 1);
 }
