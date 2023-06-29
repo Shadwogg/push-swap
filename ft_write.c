@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 19:11:18 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 11:06:09 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:44:32 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ void	print_stack(t_stack *stk, char *str)
 	while (stk != NULL)
 	{
 		ft_printf("%d%s", stk->nb, str);
-		// if (stk->next != NULL)
-		// 	ft_printf("%d %s", stk->s_ind, str);
-		// else
-		// 	ft_printf("%d", stk->s_ind);
 		stk = stk->next;
 	}
 	ft_printf("\n");

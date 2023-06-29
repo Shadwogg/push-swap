@@ -6,16 +6,12 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 11:28:56 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:43:20 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 /*
-  *
-  *
-  *
-  * 
 3 numbers -> 2 or 3 moves
 5 numbers ->   <12 moves
 100 numbers:
@@ -34,71 +30,51 @@
   *  
 */
 
-unsigned int	count_same_inst(t_inst *inst)
-{
-	unsigned int	ct;
-
-	ct = 0;
-	while (inst != NULL && inst->next != NULL && inst->str == inst->next->str)
-		inst = inst->next;
-	return (ct);
-}
-
-void	opti_inst(t_inst *instructions)
-{
-	t_inst			*inst;
-	unsigned int	ct;
-
-	inst = instructions;
-	while (inst != NULL)
-	{
-		ct = count_same_inst(inst);
-		//if (inst->str == "ra" || inst->str == "rra")
-		inst = inst->next;
-	}
-}
-
-void	push_all(t_stack *s_a, t_stack *s_b, t_inst **inst)
-{
-	while (get_stack_size(s_a) > 2)
-	{
-		if (s_a->s_ind > 0 && s_a->s_ind < get_stack_size(s_a) - 1)
-			push_b(&s_a, &s_b, inst, 1);
-		else
-			rotate_a(&s_a, inst, 1);
-	}
-}
-
-unsigned int	get_start(size_t size)
-{
-	unsigned int	res;
-
-	res = 0;
-	while (size > 0)
-	{
-		res++;
-		size = size >> 1;
-	}
-	return (res);
-}
-
 /**
  * The core of the program, initialize the stack_a then free the stack after
  * it is sorted. Also free the chained list of instructions after printing it.
 */
-void	push_swap(t_stack *stk_a)
+void	push_swap(t_stack *a)
 {
-	t_stack	*stk_b;
+	t_stack	*b;
 	t_inst	*instructions;
 
 	instructions = NULL;
-	stk_b = NULL;
-	update_indexes(stk_a);
-	radix_sort(&stk_a, &stk_b, &instructions, 0);
-	free_stack(stk_a);
-	// optimize(instructions);
+	b = NULL;
+	radix_sort(&a, &b, &instructions, 0);
+	free_stack(a);
+	optimize(instructions);
 	read_inst(instructions);
 	free_inst(instructions);
+}
+
+void	sort_three(t_stack *a)
+{
+	t_stack	*b;
+	t_inst	*instructions;
+
+	b = NULL;
+	instructions = NULL;
+	if (a->s_ind == 0)
+		ft_printf("ra\nsa\nrra\n");
+	else if ((a->s_ind == 2 && a->next->s_ind == 1))
+		ft_printf("ra\nsa\n");
+	else if (a->s_ind == 2)
+		ft_printf("ra\n");
+	else
+		ft_printf("sa\n");
+	free_stack(a);
+}
+
+void	sort_five(t_stack *a)
+{
+	t_stack	*b;
+	t_inst	*instructions;
+
+	b = NULL;
+	instructions = NULL;
+	push_b(&a, &b, &instructions, 2);
+	if ()
 }
 
 int	main(int argc, char **argv)
@@ -111,7 +87,20 @@ int	main(int argc, char **argv)
 	else
 		parse_strs(argc - 1, argv + 1, &stk);
 	if (is_sorted(stk, 0))
+	{
+		free_stack(stk);
 		return (0);
-	push_swap(stk);
-	//system("leaks push_swap");
+	}
+	update_indexes(stk);
+	if (get_stack_size(stk) != 5 && get_stack_size(stk) != 3)
+		push_swap(stk);
+	else if (get_stack_size(stk) == 3)
+	{
+		sort_three(stk);
+		free(stk);
+		return (0);
+	}
+	sort_five(stk);
+	free(stk);
+	return (0);
 }

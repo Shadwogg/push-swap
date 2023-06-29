@@ -6,17 +6,11 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:36:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/14 17:34:57 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 17:34:19 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	pre_optimization(t_stack *stk_a, t_stack *stk_b)
-{
-	(void) stk_a;
-	(void) stk_b;
-}
 
 char	*deduce(char *str)
 {
@@ -35,7 +29,7 @@ void	optimize(t_inst *inst)
 
 	while (inst != NULL && inst->next != NULL)
 	{
-		if (ft_strncmp(inst->str, inst->next->str, 1) == 0)
+		if (inst->str[0] != 'p' && inst->str[0] == inst->next->str[0])
 		{
 			if (inst->str[1] != inst->next->str[1])
 			{

@@ -12,41 +12,12 @@
 
 #include "push_swap.h"
 
-void	init_stack(t_stack *s, int nb, unsigned int s_ind)
-{
-	s->nb = nb;
-	s->s_ind = s_ind;
-	s->next = NULL;
-}
-
-t_stack	*cp_stack(t_stack *s)
-{
-	t_stack	*new;
-	t_stack	*next;
-	t_stack	*cur;
-
-	// ft_putstr_fd("-----TUTU\n", 1);
-	if (s == NULL)
-		return (NULL);
-	new = malloc(sizeof(t_stack));
-	if (new == NULL)
-		print_error("", "Malloc error");
-	init_stack(new, s->nb, s->s_ind);
-	s = s->next;
-	cur = new;
-	while (s != NULL)
-	{
-		next = malloc(sizeof(t_stack));
-		if (next == NULL)
-			print_error("", "Malloc error");
-		init_stack(next, s->nb, s->s_ind);
-		cur->next = next;
-		cur = cur->next;
-		s = s->next;
-	}
-	// ft_putstr_fd("-----SORTIE\n", 1);
-	return (new);
-}
+// void	init_stack(t_stack *s, int nb, unsigned int s_ind)
+// {
+// 	s->nb = nb;
+// 	s->s_ind = s_ind;
+// 	s->next = NULL;
+// }
 
 int	in_stack(int nb, t_stack *stk)
 {

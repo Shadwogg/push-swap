@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:29:02 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 10:32:34 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 16:41:10 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
 	if (s == NULL)
 		return (1);
 	if (bit > 15)
-		print_error("Unreachable bit", "");
+		print_error(NULL, "Unreachable bit");
 	while (s != NULL)
 	{
 		if (!(((s->s_ind >> bit) & 1) == val))
@@ -36,12 +36,7 @@ int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
 int	first_is_sorted(unsigned int nb, unsigned int bit, unsigned int val)
 {
 	if (bit > 15)
-		print_error("Unreachable bit", "");
-	/*printf("nb = %d\n%d\n", nb, (nb >> bit) & 1);
-	if (((nb >> bit) & 1) == val)
-		printf("	1st sorted\n");
-	else
-		printf("	1st not sorted\n");*/
+		print_error(NULL, "Unreachable bit");
 	return ((((nb >> bit) & 1) == val));
 }
 
@@ -59,24 +54,31 @@ int	is_swappable(t_stack *s, int order)
 	return (0);
 }
 
-void	radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct)
+/**
+ * Radix sort (binary version)
+ * push to stack b every number if the bit at pos ct is not sorted,
+ * then push everything into stack a.
+ * Repeat until sorted.
+*/
+void	radix_sort(t_stack **a, t_stack **b, t_inst **inst, unsigned int ct)
 {
-	//printf("Ct = %d\n", ct);
 	unsigned int	i;
 
 	i = 0;
-	while (i < get_stack_size(*s_a) + get_stack_size(*s_b))
+	while (i < get_stack_size(*a) + get_stack_size(*b))
 	{
-		//print_stack(*s_a, "- ");
-		// if (is_swappable(*s_a, 0))
-		// 	swap_a(s_a, inst, 0);
-		if (!first_is_sorted((*s_a)->s_ind, ct, 1))
-			push_b(s_a, s_b, inst, 1);
+		if (is_sorted(*a, 0) && is_sorted(*b, 1) && ct == 15)
+		{
+			push_a(a, b, inst, get_stack_size(*b));
+			return ;
+		}
+		if (!first_is_sorted((*a)->s_ind, ct, 1))
+			push_b(a, b, inst, 1);
 		else
-			rotate_a(s_a, inst, 1);
+			rotate_a(a, inst, 1);
 		i++;
 	}
-	push_a(s_a, s_b, inst, get_stack_size(*s_b));
-	if (!is_sorted(*s_a, 0) && ct < 16)
-		radix_sort(s_a, s_b, inst, ct + 1);
+	push_a(a, b, inst, get_stack_size(*b));
+	if (!is_sorted(*a, 0) && ct < 16)
+		radix_sort(a, b, inst, ct + 1);
 }

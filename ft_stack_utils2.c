@@ -6,13 +6,13 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 13:18:41 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/24 16:46:33 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:53:23 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-unsigned int	get_stack_size(t_stack *stk)
+size_t	get_stack_size(t_stack *stk)
 {
 	unsigned int	size;
 
