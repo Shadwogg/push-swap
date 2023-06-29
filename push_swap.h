@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/27 19:34:17 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:30:29 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include "libft/libft.h"
 
+// A chained list storing the stack.
 typedef struct s_stack
 {
 	int				nb;
@@ -27,6 +28,7 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
+// A chained list storing the instructions.
 typedef struct s_inst
 {
 	char			*str;

@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:29:02 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/27 22:30:23 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 10:32:34 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,25 +68,15 @@ void	radix_sort(t_stack **s_a, t_stack **s_b, t_inst **inst, unsigned int ct)
 	while (i < get_stack_size(*s_a) + get_stack_size(*s_b))
 	{
 		//print_stack(*s_a, "- ");
-		if (is_swappable(*s_a, 0))
-			swap_a(s_a, inst, 0);
+		// if (is_swappable(*s_a, 0))
+		// 	swap_a(s_a, inst, 0);
 		if (!first_is_sorted((*s_a)->s_ind, ct, 1))
 			push_b(s_a, s_b, inst, 1);
 		else
 			rotate_a(s_a, inst, 1);
 		i++;
 	}
-	// while (!is_bit_sorted(*s_b, ct + 1, 1))
-	// {
-	// 	if (is_swappable(*s_b, 1))
-	// 		swap_b(s_b, inst, 1);
-	// 	if (!first_is_sorted((*s_b)->s_ind, ct + 1, 1))
-	// 		push_a(s_a, s_b, inst, 1);
-	// 	else
-	// 		rotate_b(s_b, inst, 1);
-	// }
-	// printf("PuSH\n");
 	push_a(s_a, s_b, inst, get_stack_size(*s_b));
-	if (!is_sorted(*s_a, 0) && ct < 10)
+	if (!is_sorted(*s_a, 0) && ct < 16)
 		radix_sort(s_a, s_b, inst, ct + 1);
 }

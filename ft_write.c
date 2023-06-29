@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 19:11:18 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/27 18:14:52 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:06:09 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
  * Formatted print of error.
  * Exit after it has printed.
 */
-int	print_error(char *s, char *str)
+int	print_error(char *nb, char *str)
 {
-	stderr_print(s);
+	stderr_print(nb);
+	free(nb);
 	stderr_print(str);
 	stderr_print("\n");
 	exit(EXIT_SUCCESS);

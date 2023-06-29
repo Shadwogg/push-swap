@@ -6,13 +6,13 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/06/27 19:39:36 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/06/29 11:26:34 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SHELL = /bin/sh
 
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 
 NAME = push_swap
 
