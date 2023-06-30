@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 17:43:20 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/06/30 18:13:16 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,52 @@
   *  
 */
 
+void	sort_three(t_stack **a, t_inst **inst)
+{
+	if (is_sorted(*a, 0))
+		return ;
+	if ((*a)->s_ind == 0)
+	{
+		rotate_a(a, inst, 1);
+		swap_a(a, inst, 1);
+		reverse_rotate_a(a, inst, 1);
+	}
+	else if (((*a)->s_ind == 2 && (*a)->next->s_ind == 1))
+	{
+		rotate_a(a, inst, 1);
+		swap_a(a, inst, 1);
+	}
+	else if ((*a)->s_ind == 2)
+		rotate_a(a, inst, 1);
+	else if ((*a)->s_ind == 1 && (*a)->next->s_ind == 2)
+		reverse_rotate_a(a, inst, 1);
+	else
+		swap_a(a, inst, 1);
+}
+
+void	sort_five(t_stack **a, t_stack **b, t_inst **inst)
+{
+	while (!is_sorted(*a, 0) || get_stack_size(*a) < 5)
+	{
+		if ((*a)->next != NULL
+			&& (int)(*a)->next->s_ind - (int)(*a)->s_ind == -1)
+			swap_a(a, inst, 1);
+		else if (is_sorted(*a, 0) && b != NULL && get_stack_size(*b) == 2)
+		{
+			push_a(a, b, inst, 2);
+			if ((*a)->s_ind == 5)
+				swap_a(a, inst, 1);
+			rotate_a(a, inst, 2);
+		}
+		else if (get_stack_size((*a)) == 3)
+			sort_three(a, inst);
+		else if ((*a)->s_ind == 3 || (*a)->s_ind == 4)
+			push_b(a, b, inst, 1);
+		else
+			rotate_a(a, inst, 1);
+	}
+}
+
 /**
  * The core of the program, initialize the stack_a then free the stack after
  * it is sorted. Also free the chained list of instructions after printing it.
@@ -37,44 +83,19 @@
 void	push_swap(t_stack *a)
 {
 	t_stack	*b;
-	t_inst	*instructions;
-
-	instructions = NULL;
-	b = NULL;
-	radix_sort(&a, &b, &instructions, 0);
-	free_stack(a);
-	optimize(instructions);
-	read_inst(instructions);
-	free_inst(instructions);
-}
-
-void	sort_three(t_stack *a)
-{
-	t_stack	*b;
-	t_inst	*instructions;
+	t_inst	*inst;
 
 	b = NULL;
-	instructions = NULL;
-	if (a->s_ind == 0)
-		ft_printf("ra\nsa\nrra\n");
-	else if ((a->s_ind == 2 && a->next->s_ind == 1))
-		ft_printf("ra\nsa\n");
-	else if (a->s_ind == 2)
-		ft_printf("ra\n");
+	inst = NULL;
+	if (get_stack_size(a) == 3)
+		sort_three(&a, &inst);
+	else if (get_stack_size(a) == 5)
+		sort_five(&a, &b, &inst);
 	else
-		ft_printf("sa\n");
-	free_stack(a);
-}
-
-void	sort_five(t_stack *a)
-{
-	t_stack	*b;
-	t_inst	*instructions;
-
-	b = NULL;
-	instructions = NULL;
-	push_b(&a, &b, &instructions, 2);
-	if ()
+		radix_sort(&a, &b, &inst, 0);
+	optimize(inst);
+	read_inst(inst);
+	free_inst(inst);
 }
 
 int	main(int argc, char **argv)
@@ -92,15 +113,7 @@ int	main(int argc, char **argv)
 		return (0);
 	}
 	update_indexes(stk);
-	if (get_stack_size(stk) != 5 && get_stack_size(stk) != 3)
-		push_swap(stk);
-	else if (get_stack_size(stk) == 3)
-	{
-		sort_three(stk);
-		free(stk);
-		return (0);
-	}
-	sort_five(stk);
+	push_swap(stk);
 	free(stk);
 	return (0);
 }
