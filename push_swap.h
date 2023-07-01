@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 17:27:38 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/01 15:46:35 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef struct s_inst
 	char			*str;
 	struct s_inst	*next;
 }	t_inst;
+
+typedef struct s_move
+{
+	char			*str;
+	unsigned int	time;
+}	t_move;
 
 /************************************ALGO**************************************/
 
@@ -73,7 +79,7 @@ int		in_stack(int nb, t_stack *stk);
 
 size_t	get_stack_size(t_stack *stk);
 t_stack	*get_last(t_stack *stk);
-// t_stack	*get_el(t_stack *stk, unsigned int numero);
+t_stack	*get_el(t_stack *stk, unsigned int numero);
 t_stack	*get_el_sorted(t_stack *stk, unsigned int numero);
 // t_stack	*get_prev_el(t_stack *s, t_stack *el);
 void	update_indexes(t_stack *stk);

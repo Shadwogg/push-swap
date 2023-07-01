@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:36:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 17:34:19 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/01 23:16:07 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	optimize(t_inst *inst)
 	{
 		if (inst->str[0] != 'p' && inst->str[0] == inst->next->str[0])
 		{
-			if (inst->str[1] != inst->next->str[1])
+			if (inst->str[1] == 'r')
+				;
+			else if (inst->str[1] != inst->next->str[1])
 			{
 				tofree = inst->next;
 				inst->next = inst->next->next;
