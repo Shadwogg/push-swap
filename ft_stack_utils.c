@@ -12,13 +12,6 @@
 
 #include "push_swap.h"
 
-// void	init_stack(t_stack *s, int nb, unsigned int s_ind)
-// {
-// 	s->nb = nb;
-// 	s->s_ind = s_ind;
-// 	s->next = NULL;
-// }
-
 int	in_stack(int nb, t_stack *stk)
 {
 	while (stk != NULL)
@@ -79,4 +72,26 @@ void	update_indexes(t_stack *stk)
 		cur->s_ind = nb;
 		cur = cur->next;
 	}
+}
+
+size_t	get_stack_size(t_stack *stk)
+{
+	unsigned int	size;
+
+	size = 0;
+	while (stk != NULL)
+	{
+		stk = stk->next;
+		size++;
+	}
+	return (size);
+}
+
+t_stack	*get_last(t_stack *stk)
+{
+	if (stk == NULL)
+		return (NULL);
+	while (stk->next != NULL)
+		stk = stk->next;
+	return (stk);
 }

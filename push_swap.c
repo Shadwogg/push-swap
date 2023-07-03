@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 17:47:14 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:19:00 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int	main(int argc, char **argv)
 	}
 	update_indexes(stk);
 	push_swap(stk);
-	free(stk);
+	free_stack(stk);
 	return (0);
 }

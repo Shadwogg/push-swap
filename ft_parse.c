@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:55:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 16:06:36 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:23:03 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void	check_input(char **argv)
 	while (argv[++ct] != NULL)
 	{
 		if (is_not_number(argv[ct]))
-			print_error();
+			print_error(NULL, NULL);
 		else if (is_not_int(argv[ct]))
-			print_error();
+			print_error(NULL, NULL);
 	}
 }
 
@@ -85,10 +85,7 @@ void	check_double(t_stack *stk)
 	{
 		nb = cur->nb;
 		if (in_stack(nb, cur->next))
-		{
-			free_stack(stk);
-			print_error();
-		}
+			print_error(NULL, stk);
 		cur = cur->next;
 	}
 }
@@ -103,7 +100,7 @@ t_stack	*ft_parse(int size, char **input)
 	{
 		last = malloc(sizeof(t_stack));
 		if (last == NULL)
-			print_error();
+			print_error(NULL, stk);
 		last->s_ind = 0;
 		last->nb = ft_atoi(input[size]);
 		last->next = stk;

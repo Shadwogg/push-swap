@@ -6,7 +6,7 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/07/03 17:15:49 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/07/03 21:20:36 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRCS = ft_free.c			\
 		ft_parse.c			\
 		ft_stack_op.c		\
 		ft_stack_utils.c	\
-		ft_stack_utils2.c	\
 		ft_traductions.c	\
 		ft_traductions2.c	\
 		ft_write.c			\
@@ -92,13 +91,3 @@ fclean : clean
 	@/bin/rm -f $(NAME)
 	@/bin/rm -f $(LIBFT)
 	@echo "$(GREEN)All compiled files removed.$(NC)"
-
-debug : $(OBJS_COMMON) $(OBJ_MAIN) lib
-	@gcc $(FLAGS) -fsanitize=address $(OBJS_COMMON) $(OBJ_MAIN) -o $(NAME) $(LIB)
-	
-test : re
-#	./push_swap "-2147483648 1 0 -1 2147483647"
-#	./push_swap 1 2 3 4 0 
-#	./push_swap -2147483648 1 0 2147483647
-#	./push_swap -2147483648 1 -4 8 -70 70 42 0 2147483647
-	./push_swap 0 1 2 6 5 3 4

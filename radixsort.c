@@ -6,29 +6,29 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:29:02 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 16:15:22 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:30:03 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/**
- * The stack is sorted if it has no elements unsorted.
-*/
-int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
-{
-	if (s == NULL)
-		return (1);
-	if (bit > 15)
-		print_error();
-	while (s != NULL)
-	{
-		if (!(((s->s_ind >> bit) & 1) == val))
-			return (0);
-		s = s->next;
-	}
-	return (1);
-}
+// /**
+//  * The stack is sorted if it has no elements unsorted.
+// */
+// int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
+// {
+// 	if (s == NULL)
+// 		return (1);
+// 	if (bit > 15)
+// 		return (-1);
+// 	while (s != NULL)
+// 	{
+// 		if (!(((s->s_ind >> bit) & 1) == val))
+// 			return (0);
+// 		s = s->next;
+// 	}
+// 	return (1);
+// }
 
 /**
  * The number is sorted if the wanted bit is equal to val.
@@ -36,7 +36,7 @@ int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
 int	first_is_sorted(unsigned int nb, unsigned int bit, unsigned int val)
 {
 	if (bit > 15)
-		print_error();
+		return (-1);
 	return ((((nb >> bit) & 1) == val));
 }
 
@@ -58,6 +58,11 @@ void	radix_sort(t_stack **a, t_stack **b, t_inst **inst, unsigned int ct)
 		{
 			push_a(a, b, inst, get_stack_size(*b));
 			return ;
+		}
+		if (first_is_sorted((*a)->s_ind, ct, 1) == -1)
+		{
+			free_stack(*b);
+			print_error(*inst, *a);
 		}
 		if (!first_is_sorted((*a)->s_ind, ct, 1))
 			push_b(a, b, inst, 1);

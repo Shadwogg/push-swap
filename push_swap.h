@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 17:24:05 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:30:20 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ typedef struct s_stack
 	struct s_stack	*next;
 }	t_stack;
 
-// A chained list storing the instructions.
+// A doubled chained list storing the instructions.
 typedef struct s_inst
 {
 	char			*str;
 	struct s_inst	*next;
+	struct s_inst	*prev;
 }	t_inst;
 
 /************************************ALGO**************************************/
@@ -75,14 +76,12 @@ int		is_max(int nb, t_stack *s);
 
 size_t	get_stack_size(t_stack *stk);
 t_stack	*get_last(t_stack *stk);
-t_stack	*get_el(t_stack *stk, unsigned int numero);
-t_stack	*get_el_sorted(t_stack *stk, unsigned int numero);
 void	update_indexes(t_stack *stk);
 
 void	free_stack(t_stack *stk);
 void	free_inst(t_inst *s);
 
-int		print_error(void);
+int		print_error(t_inst *inst, t_stack *s);
 
 /************************************PARSE*************************************/
 void	parse_strs(int size, char **argv, t_stack **stk);
