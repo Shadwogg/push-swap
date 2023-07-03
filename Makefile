@@ -6,7 +6,7 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/06/29 17:28:27 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/07/03 17:15:49 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,13 +20,13 @@ SRCS = ft_free.c			\
 		ft_instructions.c	\
 		ft_optimizations.c	\
 		ft_parse.c			\
-		ft_parse_utils.c	\
 		ft_stack_op.c		\
 		ft_stack_utils.c	\
 		ft_stack_utils2.c	\
 		ft_traductions.c	\
-		ft_utils.c			\
+		ft_traductions2.c	\
 		ft_write.c			\
+		sort.c				\
 		radixsort.c			
 
 S_MAIN = push_swap.c

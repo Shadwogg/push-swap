@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:29:02 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 16:41:10 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:15:22 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
 	if (s == NULL)
 		return (1);
 	if (bit > 15)
-		print_error(NULL, "Unreachable bit");
+		print_error();
 	while (s != NULL)
 	{
 		if (!(((s->s_ind >> bit) & 1) == val))
@@ -31,33 +31,20 @@ int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
 }
 
 /**
- * The number is sorted if it has the wanted bit is equal to val.
+ * The number is sorted if the wanted bit is equal to val.
 */
 int	first_is_sorted(unsigned int nb, unsigned int bit, unsigned int val)
 {
 	if (bit > 15)
-		print_error(NULL, "Unreachable bit");
+		print_error();
 	return ((((nb >> bit) & 1) == val));
-}
-
-// TEST 1
-int	is_swappable(t_stack *s, int order)
-{
-	if (s == NULL || s->next == NULL)
-		return (0);
-	if (order == 0)
-		if (s->s_ind > s->next->s_ind && s->s_ind - s->next->s_ind == 1)
-			return (1);
-	if (order == 1)
-		if (s->s_ind < s->next->s_ind && s->next->s_ind - s->s_ind == 1)
-			return (1);
-	return (0);
 }
 
 /**
  * Radix sort (binary version)
- * push to stack b every number if the bit at pos ct is not sorted,
- * then push everything into stack a.
+ * push to stack b the head number if the ct bit is not sorted,
+ * rotate if not.
+ * Push everything into stack a after the stack is sorted for this bit.
  * Repeat until sorted.
 */
 void	radix_sort(t_stack **a, t_stack **b, t_inst **inst, unsigned int ct)

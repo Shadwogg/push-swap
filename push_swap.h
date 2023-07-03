@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/01 15:46:35 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:24:05 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,21 @@ typedef struct s_inst
 	struct s_inst	*next;
 }	t_inst;
 
-typedef struct s_move
-{
-	char			*str;
-	unsigned int	time;
-}	t_move;
-
 /************************************ALGO**************************************/
 
+void	insert_sort(t_stack **a, t_stack **b, t_inst **inst);
+void	sort_three(t_stack **a, t_inst **inst);
+void	sort_five(t_stack **a, t_stack **b, t_inst **inst);
+int		is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val);
+int		first_is_sorted(unsigned int nb, unsigned int bit, unsigned int val);
 void	radix_sort(t_stack **a, t_stack **b, t_inst **inst, unsigned int ct);
 void	push_swap(t_stack *a);
 
 /********************************INSTRUCTIONS**********************************/
 
-void	optimize(t_inst *inst);
+void	optimize(t_inst **inst);
 void	read_inst(t_inst *inst);
 void	add_inst(t_inst	**inst, char *str, unsigned int time);
-
-/************************************PRINT*************************************/
-void	print_stack(t_stack *stk, char *str);
-int		print_error(char *nb, char *str);
-
-void	stderr_print(char *s);
 
 /************************************UTILS*************************************/
 
@@ -77,21 +70,19 @@ void	reverse_rotate_b(t_stack **stk, t_inst **inst, unsigned int time);
 int		is_sorted(t_stack *stk, char order);
 int		in_stack(int nb, t_stack *stk);
 
+int		is_min(int nb, t_stack *s);
+int		is_max(int nb, t_stack *s);
+
 size_t	get_stack_size(t_stack *stk);
 t_stack	*get_last(t_stack *stk);
 t_stack	*get_el(t_stack *stk, unsigned int numero);
 t_stack	*get_el_sorted(t_stack *stk, unsigned int numero);
-// t_stack	*get_prev_el(t_stack *s, t_stack *el);
 void	update_indexes(t_stack *stk);
 
 void	free_stack(t_stack *stk);
 void	free_inst(t_inst *s);
-// void	free_tab_str(char **arr, int size);
 
-// void	init_inst(t_inst **inst, char *str);
-// t_inst	*cp_inst(t_inst *inst);
-// void	init_stack(t_stack *s, int nb, unsigned int s_ind);
-// t_stack	*cp_stack(t_stack *s);
+int		print_error(void);
 
 /************************************PARSE*************************************/
 void	parse_strs(int size, char **argv, t_stack **stk);
@@ -101,9 +92,5 @@ void	check_input(char **argv);
 void	check_double(t_stack *stk);
 int		is_not_number(char *nb);
 int		is_not_int(char *nb);
-
-// void			pre_optimization(t_stack *s_a, t_stack *s_b);
-// void			pre_traduction(t_stack *stk, t_inst *inst,
-					// t_stack *el, t_stack *el2);
 
 #endif

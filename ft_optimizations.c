@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 14:36:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/01 23:16:07 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:49:43 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,91 @@ char	*deduce(char *str)
 	return (NULL);
 }
 
-void	optimize(t_inst *inst)
+void	remove_pushes(t_inst **inst)
 {
 	t_inst	*tofree;
+	t_inst	*cur;
 
-	while (inst != NULL && inst->next != NULL)
+	if (*inst == NULL)
+		return ;
+	cur = *inst;
+	while (cur != NULL && cur->next != NULL)
 	{
-		if (inst->str[0] != 'p' && inst->str[0] == inst->next->str[0])
+		if (cur->str[0] == 'p' && cur->next->str[0] == 'p')
 		{
-			if (inst->str[1] == 'r')
-				;
-			else if (inst->str[1] != inst->next->str[1])
+			if ((cur->str[1] == 'a' && cur->next->str[1] == 'b')
+				|| (cur->str[1] == 'b' && cur->next->str[1] == 'a'))
 			{
-				tofree = inst->next;
-				inst->next = inst->next->next;
-				inst->str = deduce(inst->str);
-				free(tofree);
+				tofree = cur;
+				if (cur == *inst)
+					*inst = (*inst)->next->next;
+				cur = cur->next->next;
+				tofree->next->next = NULL;
+				free_inst(tofree);
+				continue ;
 			}
 		}
-		if (inst == NULL)
-			break ;
-		inst = inst->next;
+		cur = cur->next;
 	}
+}
+
+void	remove_swaps(t_inst **inst)
+{
+	t_inst	*tofree;
+	t_inst	*cur;
+
+	if (*inst == NULL)
+		return ;
+	cur = *inst;
+	while (cur != NULL && cur->next != NULL)
+	{
+		if (cur->str[0] == 's' && cur->next->str[0] == 's')
+		{
+			if ((cur->str[1] == 'a' && cur->next->str[1] == 'a')
+				|| (cur->str[1] == 'b' && cur->next->str[1] == 'b'))
+			{
+				tofree = cur;
+				if (cur == *inst)
+					*inst = (*inst)->next->next;
+				cur = cur->next->next;
+				tofree->next->next = NULL;
+				free_inst(tofree);
+				continue ;
+			}
+		}
+		cur = cur->next;
+	}
+}
+
+void	mutualize(t_inst **inst)
+{
+	t_inst	*tofree;
+	t_inst	*cur;
+
+	cur = *inst;
+	while (cur != NULL && cur->next != NULL)
+	{
+		if (cur->str[0] != 'p' && cur->str[0] == cur->next->str[0])
+		{
+			if (cur->str[1] == 'r')
+				;
+			else if (cur->str[1] != cur->next->str[1])
+			{
+				tofree = cur->next;
+				cur->next = (*inst)->next->next;
+				cur->str = deduce(cur->str);
+				tofree->next->next = NULL;
+				free(tofree);
+				continue ;
+			}
+		}
+		cur = cur->next;
+	}
+}
+
+void	optimize(t_inst **inst)
+{
+	remove_pushes(inst);
+	// remove_swaps(inst);
+	// mutualize(inst);
 }

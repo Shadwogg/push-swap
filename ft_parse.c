@@ -6,20 +6,51 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/28 22:55:54 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/29 11:19:43 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 16:06:36 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-/**
- * Parse the input.
-*/
-void	parse_strs(int size, char **argv, t_stack **stk)
+// Test if the number is an integer.
+int	is_not_int(char *nb)
 {
-	check_input(argv);
-	*stk = ft_parse(size, argv);
-	check_double(*stk);
+	long	tmp;
+	int		ct;
+
+	ct = 0;
+	tmp = 0;
+	if (nb[0] == '-' || nb[0] == '+')
+		ct++;
+	while (nb[ct])
+	{
+		tmp = tmp * 10 + nb[ct] - 48;
+		if (tmp > INT_MAX)
+			break ;
+		ct++;
+	}
+	if (nb[0] == '-')
+		tmp *= -1;
+	if (tmp < INT_MIN || tmp > INT_MAX)
+		return (1);
+	return (0);
+}
+
+int	is_not_number(char *nb)
+{
+	int	ct;
+
+	ct = -1;
+	if (nb == NULL)
+		return (1);
+	if (nb[0] == '+' || nb[0] == '-')
+		ct++;
+	while (nb[++ct])
+	{
+		if (nb[ct] < 48 || nb[ct] > 57)
+			return (1);
+	}
+	return (0);
 }
 
 /**
@@ -35,9 +66,9 @@ void	check_input(char **argv)
 	while (argv[++ct] != NULL)
 	{
 		if (is_not_number(argv[ct]))
-			print_error(ft_strdup(argv[ct]), " is not an number.");
+			print_error();
 		else if (is_not_int(argv[ct]))
-			print_error(ft_strdup(argv[ct]), " is not an integer.");
+			print_error();
 	}
 }
 
@@ -56,7 +87,7 @@ void	check_double(t_stack *stk)
 		if (in_stack(nb, cur->next))
 		{
 			free_stack(stk);
-			print_error(ft_itoa(nb), " should be unique.");
+			print_error();
 		}
 		cur = cur->next;
 	}
@@ -72,7 +103,7 @@ t_stack	*ft_parse(int size, char **input)
 	{
 		last = malloc(sizeof(t_stack));
 		if (last == NULL)
-			print_error(NULL, "Malloc error in ft_parse");
+			print_error();
 		last->s_ind = 0;
 		last->nb = ft_atoi(input[size]);
 		last->next = stk;

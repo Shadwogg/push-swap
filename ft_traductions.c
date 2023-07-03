@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 00:57:46 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/06/16 13:05:20 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 17:14:28 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,30 +55,4 @@ void	rotate_a(t_stack **s, t_inst **inst, unsigned int time)
 	add_inst(inst, "ra", time);
 	while (time-- > 0)
 		rotate(s);
-}
-
-void	rotate_b(t_stack **s, t_inst **inst, unsigned int time)
-{
-	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
-		return ;
-	add_inst(inst, "rb", time);
-	while (time-- > 0)
-		rotate(s);
-}
-
-void	reverse_rotate_a(t_stack **s, t_inst **inst, unsigned int time)
-{
-	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
-		return ;
-	add_inst(inst, "rra", time);
-	while (time-- > 0)
-		reverse_rotate(s);
-}
-void	reverse_rotate_b(t_stack **s, t_inst **inst, unsigned int time)
-{
-	if (s == NULL || *s == NULL || (*s)->next == NULL || time == 0)
-		return ;
-	add_inst(inst, "rrb", time);
-	while (time-- > 0)
-		reverse_rotate(s);
 }
