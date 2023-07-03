@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 16:07:21 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 16:09:59 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 21:54:04 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	sort_five(t_stack **a, t_stack **b, t_inst **inst)
 	push_b(a, b, inst, 2);
 	sort_three(a, inst);
 	insert_sort(a, b, inst);
-	if ((*a)->s_ind != 0 && (*a)->s_ind < 3)
+	if ((*a)->s_ind != 0 && (*a)->s_ind < 2)
 		reverse_rotate_a(a, inst, (*a)->s_ind);
 	else
 		rotate_a(a, inst, (5 - (*a)->s_ind));
