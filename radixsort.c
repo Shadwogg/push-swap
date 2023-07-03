@@ -6,29 +6,11 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 12:29:02 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 21:30:03 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/03 23:46:50 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-// /**
-//  * The stack is sorted if it has no elements unsorted.
-// */
-// int	is_bit_sorted(t_stack *s, unsigned int bit, unsigned int val)
-// {
-// 	if (s == NULL)
-// 		return (1);
-// 	if (bit > 15)
-// 		return (-1);
-// 	while (s != NULL)
-// 	{
-// 		if (!(((s->s_ind >> bit) & 1) == val))
-// 			return (0);
-// 		s = s->next;
-// 	}
-// 	return (1);
-// }
 
 /**
  * The number is sorted if the wanted bit is equal to val.
