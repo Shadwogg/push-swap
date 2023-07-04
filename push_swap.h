@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:41:45 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/03 21:30:20 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:46:20 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void	push_swap(t_stack *a);
 /********************************INSTRUCTIONS**********************************/
 
 void	optimize(t_inst **inst);
+void	remove_inst(t_inst *inst);
+t_inst	*get_next_el(t_inst *inst, char *str);
+int		rotate_is_removable(t_inst **inst);
+char	*deduce(char *str);
+
 void	read_inst(t_inst *inst);
 void	add_inst(t_inst	**inst, char *str, unsigned int time);
 
@@ -70,6 +75,7 @@ void	reverse_rotate_b(t_stack **stk, t_inst **inst, unsigned int time);
 
 int		is_sorted(t_stack *stk, char order);
 int		in_stack(int nb, t_stack *stk);
+int		is_permutation(t_stack *s);
 
 int		is_min(int nb, t_stack *s);
 int		is_max(int nb, t_stack *s);

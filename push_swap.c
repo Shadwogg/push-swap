@@ -6,7 +6,7 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 19:42:56 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/04 00:37:19 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:36:10 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	push_swap(t_stack *a)
 	optimize(&inst);
 	read_inst(inst);
 	free_inst(inst);
+	free_stack(a);
+	if (b != NULL)
+		free_stack(b);
 }
 
 int	main(int argc, char **argv)
@@ -60,6 +63,5 @@ int	main(int argc, char **argv)
 	}
 	update_indexes(stk);
 	push_swap(stk);
-	free_stack(stk);
 	return (0);
 }

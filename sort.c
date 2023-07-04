@@ -6,33 +6,11 @@
 /*   By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/03 16:07:21 by ggiboury          #+#    #+#             */
-/*   Updated: 2023/07/04 00:46:57 by ggiboury         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:45:13 by ggiboury         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	is_min(int nb, t_stack *s)
-{
-	while (s != NULL)
-	{
-		if (nb > s->nb)
-			return (0);
-		s = s->next;
-	}
-	return (1);
-}
-
-int	is_max(int nb, t_stack *s)
-{
-	while (s != NULL)
-	{
-		if (nb < s->nb)
-			return (0);
-		s = s->next;
-	}
-	return (1);
-}
 
 void	sort_three(t_stack **a, t_inst **inst)
 {
@@ -69,7 +47,6 @@ unsigned int	get_dist_rot(t_stack *a, unsigned int pos_sorted)
 		if (a->next != NULL && a->next->s_ind < a->s_ind
 			&& pos_sorted > get_stack_size(a))
 			return (d);
-		// ft_printf("	BOUCLE %u | %u\n", a->s_ind, pos_sorted);
 		d++;
 		a = a->next;
 	}
@@ -100,38 +77,12 @@ void	insert_sort(t_stack **a, t_stack **b, t_inst **inst)
 		{
 			rot = get_dist_rot(*a, (*b)->s_ind);
 			rev = get_dist_rev(*a, (*b)->s_ind);
-			// ft_printf("rot = %u, %u = rev\n", rot, rev);
 			if (rot < rev)
 				rotate_a(a, inst, rot);
 			else
 				reverse_rotate_a(a, inst, rev + 1);
 		}
 	}
-}
-
-int		is_permutation(t_stack *s)
-{
-	unsigned int	ct;
-	unsigned int	diff;
-	size_t			size;
-
-	ct = 0;
-	diff = 0;
-	size = get_stack_size(s);
-	while (s != NULL && s->next != NULL && ct < 2)
-	{
-		if (s->s_ind < s->next->s_ind && s->next->s_ind - s->s_ind > 1)
-			return (0);
-		if (s->s_ind > s->next->s_ind)
-		{
-			diff = s->s_ind - s->next->s_ind;
-			ct++;
-		}
-		s = s->next;
-	}
-	if (ct >= 2 || s->next != NULL)
-		return (0);
-	return (diff == (unsigned int) size - 1);
 }
 
 void	sort_five(t_stack **a, t_stack **b, t_inst **inst)

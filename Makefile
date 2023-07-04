@@ -6,7 +6,7 @@
 #    By: ggiboury <ggiboury@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/07 19:14:05 by ggiboury          #+#    #+#              #
-#    Updated: 2023/07/03 21:20:36 by ggiboury         ###   ########.fr        #
+#    Updated: 2023/07/04 15:41:44 by ggiboury         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ NAME = push_swap
 SRCS = ft_free.c			\
 		ft_instructions.c	\
 		ft_optimizations.c	\
+		ft_optimizations2.c	\
 		ft_parse.c			\
 		ft_stack_op.c		\
 		ft_stack_utils.c	\
@@ -91,3 +92,6 @@ fclean : clean
 	@/bin/rm -f $(NAME)
 	@/bin/rm -f $(LIBFT)
 	@echo "$(GREEN)All compiled files removed.$(NC)"
+
+debug :	$(OBJS_COMMON) $(OBJ_MAIN) lib
+	@gcc $(FLAGS) -g $(OBJS_COMMON) $(OBJ_MAIN) -o $(NAME) $(LIB)
